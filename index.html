@@ -49,6 +49,17 @@
   .dropdown-menu .divider {
     background-color: #222222;
   }
+
+  .navbar-nav>li>a.profilePicHolder {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .profileImg {
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
+  }
   </style>
 </head>
 
@@ -67,13 +78,13 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li class="active"><a href="#">Featured</a></li>
+          <li><a href="#about">All</a></li>
+          <li><a href="#contact">Channels</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li class="dropdown-header">Nav header</li>
+              <!--<li class="dropdown-header">Nav header</li>-->
               <li><a href="#">Action</a></li>
               <li class="divider"></li>
               <li><a href="#">Separated link</a></li>
@@ -81,9 +92,17 @@
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="../navbar/">Default</a></li>
-          <li><a href="../navbar-static-top/">Static top</a></li>
-          <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle profilePicHolder" data-toggle="dropdown" href="#">
+              <img class="img-circle profileImg" src="gandalf_crop.jpg" /> Gandalf182 <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="dropdown-button"><span class="glyphicon glyphicon-bell"></span> Notifications <span class="badge">2</span></a></li>
+              <li class="divider"></li>
+              <li><a href="#" class="dropdown-button"><span class="glyphicon glyphicon-cog"></span> Account Settings</a></li>
+              <li><a href="#" class="dropdown-button"><span class="glyphicon glyphicon-off"></span> Sign Out</a></li>
+            </ul>
+          </li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
