@@ -1,0 +1,116 @@
+body {
+  padding-top: 50px;
+}
+
+.grey {
+  background-color: #DDDDDD;
+  padding: 20px;
+  min-height: 2000px;
+  background: url("../back-pixel.png");
+  background-position: 0px 0px;
+}
+
+.footer {
+  background-color: #222222;
+  min-height: 200px;
+  padding: 20px;
+  color: #DDDDDD;
+  border: 1px solid #080808;
+  border-width: 1px 0 0;
+}
+
+.dropdown-menu {
+  background-color: #222222;
+}
+.dropdown-menu li a {
+  color: #AAAAAA;
+}
+.dropdown-menu .divider {
+  background-color: #222222;
+}
+
+.navbar-nav>li>a.profilePicHolder {
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.navbar-nav>li.active {
+  border-bottom: solid 3px #FFAA00;
+}
+
+.navbar-brand {
+  width: 100px;
+  height: 50px;
+}
+
+.navbar-brand>div {
+  width: 100%;
+  height: 100%;
+  background: url("../logo.png") no-repeat;
+  background-size: contain;
+}
+
+.profileImg {
+  width: 38px;
+  height: 38px;
+  margin-right: 10px;
+}
+
+.panel {
+  background-color: #444444;
+}
+
+.panel-heading {
+  background-color: #222222;
+  color: #DDDDDD;
+  font-size: 18px;
+}
+.panel-heading>small {
+  color: #AAAAAA;
+}
+.panel-body {
+  color: #FFFFFF;
+}
+.panel-body>small {
+  color: #AAAAAA;
+}
+
+.preview {
+  height: 500px;
+  background-color: #080808;
+  padding: 0px;
+}
+
+#overdraw {
+  position: relative;
+  top: -100%;
+  background-color: transparent;
+  opacity: 1.0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 40px #000000 inset;
+  /*pointer-events: none;*/
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#viewerHolder {
+  height: 500px;
+}
+
+a {
+  color: #FFAA00;
+}
+a:hover {
+  color: #FFE000;
+}
+
+.slimCol {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.big-glyph {
+  font-size: 40px;
+}
