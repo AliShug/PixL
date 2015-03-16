@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pixl - Media Sharing</title>
+  <title>Pixl - All Posts</title>
 
   <!-- Bootstrap's CSS -->
   <!-- Latest compiled and minified CSS -->
@@ -38,12 +38,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><div></div></a>
+        <a class="navbar-brand" href="index.html"><div></div></a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active no-highlight"><a href="#">Featured</a></li>
-          <li><a href="all.html">All</a></li>
+          <li><a href="index.html">Featured</a></li>
+          <li class="active no-highlight"><a href="all.html">All</a></li>
           <li><a href="channels.html">Channels</a></li>
           <!--<li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
@@ -82,82 +82,102 @@
     </div>
   </nav>
 
-  <!-- The preview WebGL -->
-  <div class="container-fluid preview">
-    <div id="viewerHolder"></div>
-    <div id="overdraw"></div>
-  </div>
+  <div class="container-fluid filter">
+    <div class="container">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Sort by..
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#">Highest rated</a></li>
+          <li><a href="#">Most popular</a></li>
+          <li><a href="#">Newest</a></li>
+        </ul>
 
-  <!-- Model information/options -->
-  <div class="container-fluid no-padding">
-    <div class="container no-padding">
-      <div class="row">
-        <a href="item.html"><div class="preview-panel-offset col-md-7 col-sm-6"></div></a>
-        <div class="col-md-5 col-sm-6">
-          <div class="panel">
-            <div class="panel-heading">
-              <span>Box <small><em>by <a href="profile.html">TestUser</a></em></small></span>
-            </div>
-            <div class="panel-body">
-              <dl>
-                <dt>Description</dt>
-                <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit... <a href="item.html">see more</a></dd>
-                <dt>Information</dt>
-                <dd>
-                  <small>Uploaded 10/03/2015</small><br />
-                  <small>Featured 15/03/2015</small>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-heading">
-              <small>More Like This</small>
-            </div>
-            <div class="panel-body">
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
-              <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="search.html"><span class="glyphicon glyphicon-option-horizontal big-glyph"></span></a></div>
-            </div>
-          </div>
-        </div>
+        <!--<nav>
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&#171;</span>
+              </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">&#187;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>-->
       </div>
     </div>
   </div>
 
+  <!-- Listings -->
   <div class="container-fluid background">
-    <!-- Main container -->
     <div class="container">
 
-      <div class="row">
-        <div class='col-md-6'>
-          <h1>About <small>PixL</small></h1>
-          <p>PixL is a visual media sharing platform for the modern internet. Anyone can upload and share images and 3D content, with or without an account, <em>all for free</em>.</p>
-          <p>Get started by <a href="#">uploading your content now</a>, or take a look at what our other users have been working on <a href="all.html">here</a>.</p>
-        </div>
+      <div class="panel">
+        <div class="panel-body">
+          <div class="media">
+            <div class="media-left"><a href="item.html">
+              <img class="media-object" src="http://placehold.it/64x64" />
+            </a></div>
 
-        <div class='col-md-6'>
-          <img style="width:100%;height:auto;" src="https://placeimg.com/600/200/animals" />
+            <div class="media-body">
+              <h4 class="media-heading">Item</h4>
+              <p>Description</p>
+            </div>
+
+            <div class="media-right">
+              <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a><br />
+              <a href="#"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-6 hidden-sm hidden-xs">
-          <img style="width:100%;height:auto;" src="https://placeimg.com/600/400/nature" />
+      <div class="panel">
+        <div class="panel-body">
+          <div class="media">
+            <div class="media-left"><a href="item.html">
+              <img class="media-object" src="http://placehold.it/64x64" />
+            </a></div>
+
+            <div class="media-body">
+              <h4 class="media-heading">Another item</h4>
+              <p>Description</p>
+            </div>
+
+            <div class="media-right">
+              <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a><br />
+              <a href="#"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div class="col-md-6">
-          <h1>Our Mission</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. At ille pellit, qui permulcet sensum voluptate. Duo Reges: constructio interrete. Illud dico, ea, quae dicat, praeclare inter se cohaerere. Tum ille timide vel potius verecunde: Facio, inquit. Quae diligentissime contra Aristonem dicuntur a Chryippo. Prioris generis est docilitas, memoria; <i>Ita prorsus, inquam;</i> </p>
+      <div class="panel">
+        <div class="panel-body">
+          <div class="media">
+            <div class="media-left"><a href="item.html">
+              <img class="media-object" src="http://placehold.it/64x64" />
+            </a></div>
 
-          <p>Sin tantum modo ad indicia veteris memoriae cognoscenda, curiosorum. Expectoque quid ad id, quod quaerebam, respondeas. Quae similitudo in genere etiam humano apparet. Sed plane dicit quod intellegit. Indicant pueri, in quibus ut in speculis natura cernitur. Potius ergo illa dicantur: turpe esse, viri non esse debilitari dolore, frangi, succumbere. <b>Et nemo nimium beatus est;</b> </p>
+            <div class="media-body">
+              <h4 class="media-heading">Item</h4>
+              <p>Description</p>
+            </div>
 
-          <blockquote cite='http://loripsum.net'>
-            Ne tum quidem te respicies et cogitabis sibi quemque natum esse et suis voluptatibus?
-          </blockquote>
+            <div class="media-right">
+              <a href="#"><span class="glyphicon glyphicon-arrow-up"></span></a><br />
+              <a href="#"><span class="glyphicon glyphicon-arrow-down"></span></a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -190,9 +210,6 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-  <!-- 3D -->
-  <script src="js/three.min.js"></script>
-  <script src="js/viewer.js"></script>
   <script src="js/menu.js"></script>
 </body>
 </html>

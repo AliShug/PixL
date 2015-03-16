@@ -36,6 +36,16 @@
     which will come back regularly for more. Something akin to Reddit's comment system would also help in this regard, again with user voting to drive the best
     comments to the top.</p>
 
+    <h2>Design</h2>
+    <p>I've tried to come up with a layout that should be fairly intuitive, and which doesn't diverge too much from the type of design Bootstrap was intended for.
+    Some familiar features are readily apparent: the "home" button is also the site logo, links along the static navigation bar take you to different sections of the
+    site, and a user's account options are available in the top right-hand corner of the screen.</p>
+
+    <h3>Images</h3>
+    <p>Graphic design wasn't a focus for me in creating the site, but I did experiment with background patterns I found online before settling on a simple design
+    I amde myself in GIMP (it's a patch of noise scaled up with no scaling filter to create a pixellated look). The <a href="logo.svg">site's logo</a> was similarly
+    designed in Inkscape, using the Google font "Exo".</p>
+
 
     <h2>Implementation</h2>
 
@@ -45,7 +55,7 @@
     was very easy to get started with, and the wide usage of the technology meant that most of my questions had already been asked. The responsive grid system
     proved key in page layout, and allowed the site to work smoothly on a wide range of screen sizes.</p>
 
-    <h3><a href="index.html">Front page 3D view</a></h3>
+    <h3><a href="index.html">3D view</a></h3>
     <p>This was a focus for me, and took up much of the development time. I first experimented with getting a bare minimum 3D display into the page, with just a 
     static wireframe cube. Using <a href="http://threejs.org">Three.js</a> made this quite straightforward.</p>
     <p>I decided early on that I would want to display interactive DOM content over the 3D view, so this was something I experimented with for some time. DOM
@@ -56,10 +66,15 @@
     the overlay element up and over the 3D view, and as a bonus it worked well with Bootstrap's responsive layout (which the other solution did not). I was surprised
     to see that modern browsers are quite happy to display these elements with proper alpha blending: the shadow effect around the 3D view is actually created by CSS
     in the overlay, and not by the view itself.</p>
+    <p>My <a href="js/viewer.js">viewer script</a> is what actually generates and renders the 3D view, including a light source and some simple animation. The script
+    also brings an element of the responsive layout system to the view, allowing dynamic resizing of the page in a sensible way - the object is displayed off-centre on
+    larger screens to accomodate the information panel overlay, but is centered on mobile-sized screens. I adapted this script for the screen-filling <a href="item.html">
+    main viewer</a>.</p>
+
     <p>For obvious reasons, the 3D view isn't supported on old browsers, notably IE8. For the final site I intend to display a static image of the 3D model whenever
     WebGL is unavailable. For now, the space is left blank and the associated scripts fail without creating other issues on the page.</p>
 
-    <h2>Future Work</h2>
+    <h4>Future Work</h4>
     <p>I've spent enough time on this feature to justify leaving it as-is for this interim release. The final viewer will be interactive, with rotation and zoom. I'd
     also like to implement some kind of progressive streaming of models from the server, to get <em>something</em> displayed on the user's screen as soon as possible
     after page load - for example, streaming the geometric mesh data and displaying each triangle as soon as it becomes available, followed by materials/shaders and 
@@ -67,8 +82,37 @@
 
 
     <h3>CSS Styling</h3>
-    <p>The site makes heavy use of custom CSS styling on almost every element. The intention here was to customize the look and feel to separate it visually from Bootstrap's
-    base theme. I went for a dark, flat look so as not to distract from content on the site, which should always remain the focus of the user's attention.
+    <p>The site makes use of custom CSS styling on almost every element. The intention here was to customize the look and feel to separate it visually from Bootstrap's
+    base theme. I went for a dark, flat look so as not to distract from content on the site, which should always remain the focus of the user's attention.</p>
+
+    <p>The changes can be found in <a href="css/main.css">main.css</a>, which overrides or otherwise modifies the Bootstrap rules, as well as adding a few of my own. Elements
+    modified include:</p>
+    <ul>
+      <li><strong>Navbar brand:</strong> now displays PixL logo</li>
+      <li><strong>Navbar "active" link:</strong> added accent border</li>
+      <li><strong>Navbar profile dropdown:</strong> custom CSS to correctly display profile image inline</li>
+      <li><strong>Form inputs and buttons:</strong> colour changes</li>
+      <li><strong>Panels:</strong> text display options (and heading font family) with changes to the panel borders</li>
+      <li><strong>General content:</strong> font family for normal text and headings, link colours</li>
+      <li><strong>Footer:</strong> custom footer</li>
+    </ul>
+    <p>I've made use of <a href="http://google.com/fonts">Google Fonts</a> for the site's text and logo, with "Open Sans" used across the site and "Exo" used for headings. These
+    are linked dynamically rather than served by Node.</p>
+    <p>I found working with Bootstrap very rewarding: for example, when I ran into difficulty with displaying the full navbar on "small" (i.e. tablet-sized) screens, I found I was
+    able to selectively hide parts of the text on smaller screens to get everything to fit. The responsive layout in general was also very intuitive to work with, especially when I was
+    working on the featured item information panel. I needed this to display below the 3D view on mobile-sized screens, and as an offset overlay on tablet and desktop screens; this
+    was achieved by using a column layout with a dummy "filler" div, set up so that the filler covered the area of the view not occupied by the panel, or the entire view when viewing
+    on a small screen (so that the panel flowed underneath the view).</p>
+
+
+    <h3>Server</h3>
+    <p>The only change I made server-side was to add font types to enable serving the glyphicon font. I plan on making much of the site's content dynamic for the final version, which
+    will involve a lot of server-side work.</p>
+
+
+    <h2>Thoughts</h2>
+    <p>This is by no means a finished piece of work - there are admittedly missing features, and many components didn't make sense to implement without some server-side work. I'm happy
+    with my progress so far and look forward to completing the project.</p>
   </div>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

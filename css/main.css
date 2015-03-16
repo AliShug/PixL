@@ -10,6 +10,7 @@ body {
   padding-bottom: 80px;
   background: url("../back-pixel.png");
   background-position: 0px 0px;
+  min-height: 800px;
 }
 
 .footer {
@@ -33,6 +34,16 @@ body {
   padding: 10px;
   padding-top: 3px;
   font-size: 13px;
+}
+
+.comments-container {
+  padding: 20px 40px;
+}
+
+@media (max-width: 768px) {
+  .comments-container {
+    padding: 0px;
+  }
 }
 
 /*Dropdown menu recolor*/
@@ -149,12 +160,44 @@ body {
   height: 500px;
 }
 
+.main-view {
+  height: 700px;
+  width: 100%;
+  background-color: #DADADA;
+  padding: 0px;
+}
+
+.main-view-desc {
+  background-color: #222;
+}
+
+.filter {
+  background-color: #FA0;
+  color: #111;
+  padding: 10px;
+}
+
 /*Standard links*/
 a {
   color: #FFAA00;
 }
 a:hover {
   color: #FFE000;
+}
+a:visited {
+  color: #AA8800;
+}
+
+/*Next/previous*/
+.pager>.next>a, .pager>.previous>a {
+  border-radius: 3px;
+  background-color: #222;
+  border: solid 1px #111;
+}
+
+.pager>.next>a:hover, .pager>.previous>a:hover {
+  background-color: #444;
+  border: solid 1px #111;
 }
 
 /*Misc*/
@@ -182,6 +225,16 @@ a:hover {
 .btn-default:hover {
   color: #FFF;
   background-color: #FA0;
+  border-color: #111;
+}
+.btn-default:focus {
+  color: #FFF;
+  background-color: #E90;
+  border-color: #111;
+}
+.open>.dropdown-toggle.btn-default {
+  color: #FFF;
+  background-color: #E90;
   border-color: #111;
 }
 

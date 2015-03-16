@@ -9,7 +9,6 @@ $(document).ready( function() {
 		// Store original colour
 		var col = $(this).css("background-color");
 		$(this).data("backCol", col);
-		console.log(col);
 	}).mouseenter( function() {
 		// Animate to highlight
 		$(this).stop();
