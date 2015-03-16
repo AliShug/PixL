@@ -1,35 +1,45 @@
-function colorLuminance(rgb, lum) {
-	console.log(rgb);
-	var values = String(rgb).replace(/[rgba()\s]/g, '').split(',');
+var highlightCol = "#333333";
+var animSpeed = 100;
 
-	var out = "rgb";
-	if (values.length === 4) {
-		out += "a";
-	}
-	out += "(";
+var uploadHighlightCol = "#FFDD88";
 
-	for (var s in values) {
-		out += (parseInt(s) + lum).toString() + ",";
-	}
-
-	return out;
-}
-
-// Menu animations
+// Menu animations (standard)
 $(document).ready( function() {
-	$(".navbar-nav>li>a").each( function() {
+	$(".navbar-nav>li:not(.no-highlight)").each( function() {
+		// Store original colour
 		var col = $(this).css("background-color");
 		$(this).data("backCol", col);
 		console.log(col);
 	}).mouseenter( function() {
+		// Animate to highlight
 		$(this).stop();
 		$(this).animate({
-			backgroundColor: colorLuminance($(this).data("backCol"), 0.05)
-		}, 500);
+			backgroundColor: highlightCol
+		}, animSpeed);
 	}).mouseleave( function() {
+		// Animate to normal
 		$(this).stop();
 		$(this).animate({
 			backgroundColor: $(this).data("backCol")
-		}, 500);
+		}, animSpeed);
+	});
+
+	$("#upload-btn>a").each( function() {
+		// Store original colour
+		var col = $(this).css("background-color");
+		$(this).data("backCol", col);
+		console.log(col);
+	}).mouseenter( function() {
+		// Animate to highlight
+		$(this).stop();
+		$(this).animate({
+			backgroundColor: uploadHighlightCol
+		}, animSpeed);
+	}).mouseleave( function() {
+		// Animate to normal
+		$(this).stop();
+		$(this).animate({
+			backgroundColor: $(this).data("backCol")
+		}, animSpeed);
 	});
 });

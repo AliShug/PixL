@@ -4,12 +4,14 @@ var time = 0;
 var lastTime;
 
 $(document).ready(function() {
-	lastTime = getTimestamp();
+	if (typeof THREE != "undefined") {
+		lastTime = getTimestamp();
 
-	preview_init();
-	preview_animate();
+		preview_init();
+		preview_animate();
 
-	$(window).on('resize', preview_resize);
+		$(window).on('resize', preview_resize);
+	}
 });
 
 function preview_init() {
@@ -25,7 +27,6 @@ function preview_init() {
 	});
 
 	mesh = new THREE.Mesh(geometry, material);
-	mesh.position.x = -300;
 	scene.add(mesh);
 
 	var light = new THREE.PointLight(0xffffff, 2, 1000);
@@ -68,6 +69,16 @@ function preview_animate() {
 }
 
 function preview_resize() {
+	// Move display mesh if needed, and adjust window height
+	if (window.innerWidth < 768) {
+		mesh.position.x = 0;
+		$(".preview, .preview-panel-offset").height(250);
+	}
+	else {
+		mesh.position.x = -300;
+		$(".preview, .preview-panel-offset").height(500);
+	}
+
 	// Resize the renderer
 	var width = $(".preview").width();
 	var height = $(".preview").height();
@@ -78,15 +89,17 @@ function preview_resize() {
 }
 
 // Timing
-if (window.performance.now) {
-    console.log("Using high performance timer");
-    getTimestamp = function() { return window.performance.now(); };
-} else {
-    if (window.performance.webkitNow) {
-        console.log("Using webkit high performance timer");
-        getTimestamp = function() { return window.performance.webkitNow(); };
-    } else {
-        console.log("Using low performance timer");
-        getTimestamp = function() { return new Date().getTime(); };
+if (typeof window.performance != "undefined") {
+	if (typeof window.performance.now != "undefined") {
+	    console.log("Using high performance timer");
+	    getTimestamp = function() { return window.performance.now(); };
+	}
+	else if (typeof window.performance.webkitNow != "undefined") {
+	    console.log("Using webkit high performance timer");
+	    getTimestamp = function() { return window.performance.webkitNow(); };
     }
+}
+else {
+    console.log("Using low performance timer");
+    getTimestamp = function() { return new Date().getTime(); };
 }

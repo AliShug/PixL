@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Report - AW12700</title>
+
+  <!-- Bootstrap's CSS -->
+  <!-- Latest compiled and minified CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!--Additional fonts-->
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,600,400' rel='stylesheet' type='text/css' />
+  <link href='http://fonts.googleapis.com/css?family=Exo:200,400,700' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+  <div class="container">
+    <h1>Report <small>Alistair Wick AW12700</small></h1>
+
+    <h2>Idea</h2>
+    <p><em>PixL</em> is a simple platform for sharing, rating and discussing visual media, including 3D models and images. It is designed to be accessed from
+    both desktop and mobile browsers, displaying interactive in-browser 3D content where WebGL features are supported; I felt this would provide a sufficient
+    technical challenge for the assignment, and it caters to my personal interest in 3D modelling and rendering.</p>
+
+    <p>I wanted to create a ratings system similar to Reddit or Imgur's collective user voting, where each user gets one "up" or "down" vote per item. This 
+    approach has been shown to work well for maximising visibility of the best content, and offers some degree of user participation to help create a community
+    which will come back regularly for more. Something akin to Reddit's comment system would also help in this regard, again with user voting to drive the best
+    comments to the top.</p>
+
+
+    <h2>Implementation</h2>
+
+    <h3>General</h3>
+    <p>The site is implemented using <a href="http://getbootstrap.com">Twitter Bootstrap</a>. My research showed it was the most flexible and widely-used 
+    framework currently available, and it supported the use of jQuery, which I was already somewhat familiar with. This proved to be a good choice - the framework
+    was very easy to get started with, and the wide usage of the technology meant that most of my questions had already been asked. The responsive grid system
+    proved key in page layout, and allowed the site to work smoothly on a wide range of screen sizes.</p>
+
+    <h3><a href="index.html">Front page 3D view</a></h3>
+    <p>This was a focus for me, and took up much of the development time. I first experimented with getting a bare minimum 3D display into the page, with just a 
+    static wireframe cube. Using <a href="http://threejs.org">Three.js</a> made this quite straightforward.</p>
+    <p>I decided early on that I would want to display interactive DOM content over the 3D view, so this was something I experimented with for some time. DOM
+    elements can't be added to a canvas for security reasons, and although <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas">
+    non-trivial workarounds</a> do exist, they aren't necessarily widely supported. The solution I settled on turned out to be quite simple: the 3D canvas view
+    is inserted into an absolutely-positioned element fixed at the start of the page, which is therefore absent from the normal document flow. I was then able
+    to create and position the other elements as normal, with the 3D view as a kind of background. This seemed more elegant than another solution where I pulled
+    the overlay element up and over the 3D view, and as a bonus it worked well with Bootstrap's responsive layout (which the other solution did not). I was surprised
+    to see that modern browsers are quite happy to display these elements with proper alpha blending: the shadow effect around the 3D view is actually created by CSS
+    in the overlay, and not by the view itself.</p>
+    <p>For obvious reasons, the 3D view isn't supported on old browsers, notably IE8. For the final site I intend to display a static image of the 3D model whenever
+    WebGL is unavailable. For now, the space is left blank and the associated scripts fail without creating other issues on the page.</p>
+
+    <h2>Future Work</h2>
+    <p>I've spent enough time on this feature to justify leaving it as-is for this interim release. The final viewer will be interactive, with rotation and zoom. I'd
+    also like to implement some kind of progressive streaming of models from the server, to get <em>something</em> displayed on the user's screen as soon as possible
+    after page load - for example, streaming the geometric mesh data and displaying each triangle as soon as it becomes available, followed by materials/shaders and 
+    finally texture images.</p>
+
+
+    <h3>CSS Styling</h3>
+    <p>The site makes heavy use of custom CSS styling on almost every element. The intention here was to customize the look and feel to separate it visually from Bootstrap's
+    base theme. I went for a dark, flat look so as not to distract from content on the site, which should always remain the focus of the user's attention.
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+</body>
+</html>

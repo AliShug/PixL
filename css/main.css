@@ -1,11 +1,13 @@
 body {
   padding-top: 50px;
+  color: #FFF;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.grey {
+.background {
   background-color: #DDDDDD;
   padding: 20px;
-  min-height: 2000px;
+  padding-bottom: 80px;
   background: url("../back-pixel.png");
   background-position: 0px 0px;
 }
@@ -13,12 +15,27 @@ body {
 .footer {
   background-color: #222222;
   min-height: 200px;
-  padding: 20px;
+  padding: 0px;
   color: #DDDDDD;
   border: 1px solid #080808;
   border-width: 1px 0 0;
 }
 
+.footer-main {
+  border-top: solid 3px #FA0;
+  padding-top: 20px;
+}
+
+.footer-main>dl>dt {
+  color: #FFF;
+}
+.footer-main>dl>dd {
+  padding: 10px;
+  padding-top: 3px;
+  font-size: 13px;
+}
+
+/*Dropdown menu recolor*/
 .dropdown-menu {
   background-color: #222222;
 }
@@ -29,13 +46,15 @@ body {
   background-color: #222222;
 }
 
+/*Navbar decoration*/
 .navbar-nav>li>a.profilePicHolder {
   padding-top: 6px;
   padding-bottom: 6px;
 }
 
-.navbar-nav>li.active {
+.navbar-nav>li.active>a {
   border-bottom: solid 3px #FFAA00;
+  height: 50px;
 }
 
 .navbar-brand {
@@ -46,8 +65,15 @@ body {
 .navbar-brand>div {
   width: 100%;
   height: 100%;
-  background: url("../logo.png") no-repeat;
-  background-size: contain;
+  background: url("../logo-min.png") no-repeat;
+}
+
+#upload-btn>a {
+  color: #080808;
+  background-color: #FFAA00;
+}
+#upload-btn>a:hover {
+  color: #222;
 }
 
 .profileImg {
@@ -56,34 +82,54 @@ body {
   margin-right: 10px;
 }
 
+.navbar-form>.form-group>.form-control {
+  background-color: #666;
+  border-color: #111;
+  color: #FFF;
+}
+
+/*Panel decoration*/
 .panel {
-  background-color: #444444;
+  background-color: #222;
+  border-radius: 1px;
+  margin: 0px;
+  border-bottom: solid 1px #111;
 }
 
 .panel-heading {
-  background-color: #222222;
-  color: #DDDDDD;
+  background-color: #222;
+  color: #DDD;
   font-size: 18px;
+  border-color: #080808;
+  font-family: 'Exo', 'sans-serif';
 }
 .panel-heading>small {
-  color: #AAAAAA;
+  color: #AAA;
 }
 .panel-body {
-  color: #FFFFFF;
+  color: #DDD;
+}
+.panel-body>dl>dd {
+  color: #AAA;
 }
 .panel-body>small {
-  color: #AAAAAA;
+  color: #AAA;
 }
 
+/*3D Preview*/
+/*This is removed from the usual flow to get overlap*/
 .preview {
   height: 500px;
+  width: 100%;
   background-color: #080808;
   padding: 0px;
+  position: absolute;
+  top: 50px;
 }
 
 #overdraw {
   position: relative;
-  top: -100%;
+  top: -500px;
   background-color: transparent;
   opacity: 1.0;
   width: 100%;
@@ -99,6 +145,11 @@ body {
   height: 500px;
 }
 
+.preview-panel-offset {
+  height: 500px;
+}
+
+/*Standard links*/
 a {
   color: #FFAA00;
 }
@@ -106,6 +157,7 @@ a:hover {
   color: #FFE000;
 }
 
+/*Misc*/
 .slimCol {
   padding-left: 5px;
   padding-right: 5px;
@@ -113,4 +165,31 @@ a:hover {
 
 .big-glyph {
   font-size: 40px;
+}
+
+.mesh-thumb {
+  border: 2px solid transparent;
+}
+.mesh-thumb:hover {
+  border: 2px solid #FFAA00;
+}
+
+.btn-default {
+  color: #AAA;
+  background-color: #333;
+  border-color: #111;
+}
+.btn-default:hover {
+  color: #FFF;
+  background-color: #FA0;
+  border-color: #111;
+}
+
+.no-padding {
+  padding: 0px;
+}
+
+h1 {
+  font-family: 'Exo', 'sans-serif';
+  font-weight: 400;
 }

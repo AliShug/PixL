@@ -30,9 +30,9 @@ var types = {
     '.json' : 'application/json',
     '.pdf'  : 'application/pdf',
     '.txt'  : 'text/plain', // plain text only
-    '.woff2': 'font',
-    '.woff' : 'font',
-    '.ttf'  : 'font',
+    '.woff2': 'font/woff2',
+    '.woff' : 'font/woff',
+    '.ttf'  : 'font/ttf',
     '.xhtml': '#not suitable for dual delivery, use .html',
     '.htm'  : '#proprietary, non-standard, use .html',
     '.jpg'  : '#common but non-standard, use .jpeg',
