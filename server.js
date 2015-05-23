@@ -9,6 +9,9 @@ var https = require('https');
 var fs = require('fs');
 var path = require('path');
 
+// Load the python shell
+var pysh = require('python-shell');
+
 // The default port numbers are the standard ones [80,443] for convenience.
 // Change them to e.g. [8080,8443] to avoid privilege or clash problems.
 var ports = [80, 443];
@@ -68,8 +71,8 @@ function printAddresses() {
 
 // All URLs other than / start with a randomly chosen prefix /site-x so the
 // site is forced to use relative links, and can then be published anywhere.
-var letter = "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random()*26));
-var prefix = "/site-" + letter;
+//var letter = "abcdefghijklmnopqrstuvwxyz".charAt(Math.floor(Math.random()*26));
+var prefix = "";//"/site-" + letter;
 
 // Response codes: see http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 var OK = 200, Redirect = 307, NotFound = 404, BadType = 415, Error = 500;
