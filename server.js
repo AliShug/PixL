@@ -109,6 +109,10 @@ function serve(request, response) {
     //if (file == '/') return redirect(response, prefix + '/');
     //if (! starts(file,prefix)) return fail(response, NotFound);
     file = file.substring(prefix.length);
+    
+    // Don't server the server script!
+    if (file === "server.js") return fail(response, NotFound);
+
     if (ends(file,'/')) file = file + 'index.html';
     file = "." + file;
     var type = findType(request, path.extname(file));
