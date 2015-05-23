@@ -111,7 +111,7 @@ function serve(request, response) {
     file = file.substring(prefix.length);
     
     // Don't server the server script!
-    if (file === "server.js") return fail(response, NotFound);
+    if (file.indexOf("server.js") > -1) return fail(response, NotFound);
 
     if (ends(file,'/')) file = file + 'index.html';
     file = "." + file;
