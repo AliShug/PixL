@@ -8,5 +8,9 @@
     "start": "node server.js"
   },
   "author": "Alistair Wick",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.4",
+    "jade": "^1.9.2"
+  }
 }

@@ -12,6 +12,9 @@ var path = require('path');
 // Load the python shell
 var pysh = require('python-shell');
 
+// Database access
+var db = require('mongojs').connect("mydb", ["test"]);
+
 // The default port numbers are the standard ones [80,443] for convenience.
 // Change them to e.g. [8080,8443] to avoid privilege or clash problems.
 var ports = [80, 443];
