@@ -106,8 +106,8 @@ function fail(response, code) {
 // browser to get relative links right).
 function serve(request, response) {
     var file = request.url;
-    if (file == '/') return redirect(response, prefix + '/');
-    if (! starts(file,prefix)) return fail(response, NotFound);
+    //if (file == '/') return redirect(response, prefix + '/');
+    //if (! starts(file,prefix)) return fail(response, NotFound);
     file = file.substring(prefix.length);
     if (ends(file,'/')) file = file + 'index.html';
     file = "." + file;
