@@ -24,5 +24,182 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
 
         link(rel="stylesheet", type="text/css", href="css/main.css")
     body
-        block b_content
-            h1 Poop
+        block b_navbar
+            nav.navbar.navbar-inverse.navbar-fixed-top
+                .container
+                    //- Brand and collapse toggle
+                    .navbar-header
+                        button.navbar-toggle.collapsed(
+                            type="button",
+                            data-toggle="collapse",
+                            data-target="#navbar",
+                            aria-expanded="false",
+                            aria-controls="navbar")
+                            span.sr-only Toggle navigation
+                            span.icon-bar 
+                            span.icon-bar 
+                            span.icon-bar
+                        a.navbar-brand(href="#"): div
+
+                    //- Collapsible area
+                    #navbar.navbar-collapse.collapse
+                        //- Menu items
+                        ul.nav.navbar-nav
+                            li.active.no-highlight: a(href="#") Featured
+                            li: a(href="all.html") Channels
+
+                        //- Search-bar
+                        form.navbar-form.navbar-left(action="search.html", method="post")
+                            .form-group.input-group
+                                input.form-control(name="query", type="text", placeholder="Search...")
+                                span.input-group-btn
+                                    button.btn.btn-default(type="submit")
+                                        span.glyphicon.glyphicon-search
+
+                        //- Profile menu
+                        ul.nav.navbar-nav.navbar-right
+                            li.no-highlight
+                                button.btn.btn-default.navbar-btn
+                                    span.glyphicon.glyphicon-upload
+                                    span.hidden-sm Upload
+                            li.dropdown
+                                a.dropdown-toggle.profilePicHolder(data-toggle="dropdown", href="#")
+                                    img.img-circle.profileImg(src="gandalf_crop.jpg")
+                                    span.hidden-sm Gandalf182
+                                    span.caret 
+                                ul.dropdown-menu
+                                    li
+                                        a.dropdown-button(href="profile.html")
+                                            span.glyphicon.glyphicon-bell
+                                            |Notifications
+                                            span.badge 2
+                                    li.divider
+                                    li
+                                        a.dropdown-button(href="profile.html")
+                                            span.glyphicon.glyphicon-cog
+                                            |Account Settings
+                                    li
+                                        a.dropdown-button(href="#")
+                                            span.glyphicon.glyphicon-off
+                                            |Sign Out
+                        //- End Profile menu
+                //- End Nav
+
+                //- Preview WebGL!
+                .container-fluid.preview
+                    #viewerHolder
+                    #overdraw
+
+                //- Model information/options
+                .container-fluid.no-padding
+                    .container.no-padding
+                        .row
+                            a(href="item.html")
+                                .preview-panel-offset.col-md-7.col-sm-6
+                            .col-md-5.col-sm-6
+                                .panel
+                                    .panel-heading
+                                        span
+                                            |Box
+                                            small: em
+                                                |by 
+                                                a(href="profile.html") TestUser
+                                    .panel-body
+                                        dl
+                                            dt Description
+                                            dd Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit...
+                                                a(href="item.html") see more
+                                            dt Information
+                                            dd
+                                                small
+                                                    |Uploaded 10/03/2015
+                                                br
+                                                small
+                                                    |Featured 15/03/2015
+                            
+//
+     --> 
+              <div class="panel">
+                <div class="panel-heading">
+                  <small>More Like This</small>
+                </div>
+                <div class="panel-body">
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="item.html"><img class="mesh-thumb" src="http://placehold.it/40x40" /></a></div>
+                  <div class="col-md-2 col-sm-2 col-xs-2 slimCol"><a href="search.html"><span class="glyphicon glyphicon-option-horizontal big-glyph"></span></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid background">
+        <!-- Main container -->
+        <div class="container">
+
+          <div class="row">
+            <div class='col-md-6'>
+              <h1>About <small>PixL</small></h1>
+              <p>PixL is a visual media sharing platform for the modern internet. Anyone can upload and share images and 3D content, with or without an account, <em>all for free</em>.</p>
+              <p>Get started by <a href="#">uploading your content now</a>, or take a look at what our other users have been working on <a href="all.html">here</a>.</p>
+            </div>
+
+            <div class='col-md-6'>
+              <img style="width:100%;height:auto;" src="https://placeimg.com/600/200/animals" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 hidden-sm hidden-xs">
+              <img style="width:100%;height:auto;" src="https://placeimg.com/600/400/nature" />
+            </div>
+
+            <div class="col-md-6">
+              <h1>Our Mission</h1>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. At ille pellit, qui permulcet sensum voluptate. Duo Reges: constructio interrete. Illud dico, ea, quae dicat, praeclare inter se cohaerere. Tum ille timide vel potius verecunde: Facio, inquit. Quae diligentissime contra Aristonem dicuntur a Chryippo. Prioris generis est docilitas, memoria; <i>Ita prorsus, inquam;</i> </p>
+
+              <p>Sin tantum modo ad indicia veteris memoriae cognoscenda, curiosorum. Expectoque quid ad id, quod quaerebam, respondeas. Quae similitudo in genere etiam humano apparet. Sed plane dicit quod intellegit. Indicant pueri, in quibus ut in speculis natura cernitur. Potius ergo illa dicantur: turpe esse, viri non esse debilitari dolore, frangi, succumbere. <b>Et nemo nimium beatus est;</b> </p>
+
+              <blockquote cite='http://loripsum.net'>
+                Ne tum quidem te respicies et cogitabis sibi quemque natum esse et suis voluptatibus?
+              </blockquote>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <footer>
+        <div class="container-fluid footer">
+          <div class="container footer-main">
+            <dl>
+              <dt>Support</dt>
+              <dd><a href="mailto:help@pixl.com">help@pixl.com</a></dd>
+              <dt>Contact/Business Enquiries</dt>
+              <dd><address>
+                <strong>PixL, Inc.</strong><br />
+                Unit 15 Industrial park drive<br />
+                Bristol, United Kingdom<br />
+                BS9 811<br />
+                <abbr title="Phone">P:</abbr> (0117) 1234 567
+              </address></dd>
+            </dl>
+          </div>
+        </div>
+      </footer>
+
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+      <!-- Latest compiled and minified JavaScript -->
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+      <!-- 3D -->
+      <script src="js/three.min.js"></script>
+      <script src="js/viewer.js"></script>
+      <script src="js/menu.js"></script>
