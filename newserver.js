@@ -21,6 +21,7 @@ app.set('case sensitive routing', true);
 
 // Templating with jade
 app.set('view engine', 'jade');
+app.locals.pretty = true;
 
 // Serving requests
 app.get('/', function(req, res) {
