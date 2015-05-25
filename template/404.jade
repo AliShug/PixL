@@ -1,0 +1,17 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+    
+        .container-fluid.background
+            .container
+                h1 
+                    |404 
+                    small Page not found 
+                p
+                    |Sorry, but 
+                    = url
+                    |  doesn't seem to exist.
+        include ./footer.jade
