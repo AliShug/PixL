@@ -8,14 +8,23 @@ var path = require('path');
 var pysh = require('python-shell');
 
 // The database 
-var db = require('mongojs').connect("mydb", ["test"]);
-var ports = [80, 443];
+var mongojs = require('mongojs');
+var db = mongojs('pixl', ['pages', 'users']); // Database is hosted locally!
+
+db.on('ready', function() {
+    console.log("Database connected successfully");
+});
+
+db.on('error',function(err) {
+        console.log('Database error', err);
+});
 
 // Express
 var express = require('express');
 var app = express();
 
 // Config
+var ports = [80, 443];
 app.set('views', './template');
 app.set('case sensitive routing', true);
 
@@ -24,12 +33,18 @@ app.set('view engine', 'jade');
 app.locals.pretty = true;
 
 // Serving requests
+
+// Landing page
 app.get('/', function(req, res) {
-    console.log(req.url);
-    res.render('test', {title: 'Hey', message: 'Hello there!'});
+    db.pages.findOne({file:'landing'}, function(err, pageInfo) {
+        db.users.findOne({}, function(err, user) {
+            pageInfo.user = user;
+            res.render('landing', pageInfo);
+        });
+    });
 });
 
-// (html files are *almost* all dynamically generated)
+// Testing thing
 app.get('/:file.html', function(req, res, next) {
     // Google verification
     if (req.url.indexOf('google') > -1) {
@@ -40,7 +55,9 @@ app.get('/:file.html', function(req, res, next) {
     console.log('Serving ' + req.url);
     console.log('        ' + req.path);
     console.log('        ' + req.params.file);
-    res.render('test', {title: 'Hey', message: 'Hello there!'});
+
+    res.send('You tried to access ' + req.params.file);
+    //res.render('test', {title: 'Hey', message: 'Hello there!'});
 });
 
 app.get('/test', function(req, res) {
@@ -50,6 +67,26 @@ app.get('/test', function(req, res) {
 
 // Static file serving (from public dir)
 app.use(express.static('public'));
+
+// Final fallback
+app.use(function(req, res, next){
+    res.status(404);
+
+    // respond with html page
+    if (req.accepts('html')) {
+        res.render('404', { url: req.url });
+        return;
+    }
+
+    // respond with json
+    if (req.accepts('json')) {
+        res.send({ error: 'Not found' });
+        return;
+    }
+
+    // default to plain-text. send()
+    res.type('txt').send('Not found');
+});
 
 // Start the server
 var server = app.listen(ports[0], function() {
