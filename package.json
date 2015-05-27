@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.12.4",
-    "jade": "^1.9.2"
+    "express-session": "^1.11.2",
+    "jade": "^1.10.0",
+    "mongojs": "^0.18.2",
+    "python-shell": "^0.1.0"
   }
 }

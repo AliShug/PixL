@@ -1,0 +1,40 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Filter box
+            .container-fluid.filter
+                .container
+                    .btn-group
+                        button.btn.btn-default.dropdown-toggle(
+                            type="button", data-toggle="dropdown",
+                            aria-expanded="false")
+                            |Sort by...
+                        ul.dropdown-menu(role="menu")
+                            li: a(href="#") Highest rated
+                            li: a(href="#") Most popular
+                            li: a(href="#") Newest
+                            
+
+            //- Main container
+            .container-fluid.background
+                .container
+                    each chan in channels
+                        .panel
+                            .panel-body
+                                .media
+                                    .media-left: a(href="item")
+                                        img.media-object(src="http://placehold.it/64x64")
+                                    .media-body
+                                        h4.media-heading=chan.name
+                                        p=chan.description
+                                    .media-right
+                                        a(href="#"): span.glyphicon.glyphicon-arrow-up: br
+                                        a(href="#"): span.glyphicon.glyphicon-arrow-down
+            //- end main container
+            
+            include ./footer.jade

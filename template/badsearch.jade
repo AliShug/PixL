@@ -1,0 +1,15 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Main container
+            .container-fluid.background
+                .container
+                    h4 Search query not recognized
+            //- end main container
+            
+            include ./footer.jade

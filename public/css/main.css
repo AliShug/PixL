@@ -87,6 +87,12 @@ body {
   color: #222;
 }
 
+.navbar-spacer {
+  width: 20px;
+  height: 50px;
+  border-right: solid 1px #111;
+}
+
 .profileImg {
   width: 38px;
   height: 38px;
@@ -245,4 +251,8 @@ a:visited {
 h1 {
   font-family: 'Exo', 'sans-serif';
   font-weight: 400;
+}
+
+h4 {
+    font-family: 'Exo', 'sans-serif';
 }

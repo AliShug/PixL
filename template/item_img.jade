@@ -1,0 +1,64 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Main view area
+            .container-fluid.main-view
+                #viewerHolder
+                #overdraw
+            
+            //- Additional info/options
+            .container-fluid.main-view-desc
+                .container
+                    .row
+                        .col-md-8
+                            .panel
+                                .panel-heading
+                                    span #[=item.name] #[small: em by #[a(href="/user/"+item.author)= item.author]]
+                                    .pull-right=item.views
+                                        |  Views
+                                .panel-body
+                                    dl
+                                        dt Description
+                                        dd= item.description
+                                        dt Information
+                                        dd: small Uploaded #[= item.upload_date]
+                        .col-md-4
+                            .panel
+                                .panel-heading: small More Like This
+                                .panel-body
+                                    - var i = 0
+                                    while i < 5
+                                        .col-md-2.col-sm-2.col-xs-2.slimCol: a(href="/")
+                                            img.mesh-thumb(src="http://placehold.it/40x40")
+                                        - i++
+                                    .col-ms-2.col-sm-2.col-xs-2.slimCol: a(href="/search")
+                                        span.glyphicon.glyphicon-option-horizontal.big-glyph
+            //- end info/options
+
+            //- Comments
+            .container-fluid.background
+                .container
+                    .h1 Comments #[small 1-n of N]
+                    .col-md-8.comments-container
+                        ul.media-list
+                            li.media
+                                a.media-left(href="/user/null")
+                                    img.hidden-xs(src="icons/userthumb.png")
+                                .media-body
+                                    h4.media-heading Null user
+                                    p A comment
+                                    p
+                                        a(href="#") Like
+                                        |/
+                                        a(href="#") Dislike 
+                                        a(href="#") Reply
+            //- end comments
+            
+        include ./footer.jade
+        script(src="/js/three.min.js")
+        script(src="/js/main-viewer.js")

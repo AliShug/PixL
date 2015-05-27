@@ -15,27 +15,25 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             .container-fluid.no-padding
                 .container.no-padding
                     .row
-                        a(href="item.html")
+                        a(href="/item/"+featured._id)
                             .preview-panel-offset.col-md-7.col-sm-6
                         .col-md-5.col-sm-6
                             .panel
                                 .panel-heading
-                                    span Box 
-                                        small: em by #[a(href="profile.html")] TestUser
+                                    span=featured.name 
+                                        small: em  by #[a(href="/users/"+featured.author)=featured.author]
                                 .panel-body
                                     dl
                                         dt Description
-                                        dd 
-                                            |Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                            |eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-                                            |enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                            |nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                                            |in reprehenderit... #[a(href="item.html") see more]
+                                        dd=featured.description
+                                            |  
+                                            a(href="/item/"+featured._id) See more
                                         dt Information
                                         dd
-                                            small Uploaded 10/03/2015
-                                            br
-                                            small Featured 15/03/2015
+                                            small Uploaded 
+                                                =featured.upload_date
+                                            //-br
+                                            //-small Featured 15/03/2015
                             .panel
                                 .panel-heading: small More Like This
                                 .panel-body
@@ -56,7 +54,7 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                             h1 About 
                                 small PixL
                             p
-                                |Pixl is a media sharing platform for the modern internet.
+                                |Pixl is a media sharing platform for the modern web.
                                 |Anyone can upload and share images and 3D content, with or without an 
                                 |account, #[em all for free].
                             p
@@ -89,3 +87,5 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             //- end main container
             
             include ./footer.jade
+            script(src="/js/three.min.js")
+            script(src="/js/viewer.js")

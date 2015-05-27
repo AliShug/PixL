@@ -18,42 +18,51 @@ nav.navbar.navbar-inverse.navbar-fixed-top
         #navbar.navbar-collapse.collapse
             //- Menu items
             ul.nav.navbar-nav
-                li.active.no-highlight: a(href="#") Featured
-                li: a(href="all.html") Channels
+                if title
+                    li(class= file === 'landing' ? "active no-highlight" : ""): a(href="/") Featured
+                    li(class= file === 'channels' ? "active no-highlight" : ""): a(href="/channels") Channels
+                else
+                    li: a(href="/") Featured
+                    li: a(href="/channels") Channels
 
             //- Search-bar
-            form.navbar-form.navbar-left(action="search.html", method="post")
+            form.navbar-form.navbar-left(action="/search", method="get")
                 .form-group.input-group
-                    input.form-control(name="query", type="text", placeholder="Search...")
+                    input.form-control(name="q", type="text", placeholder="Search...")
                     span.input-group-btn
                         button.btn.btn-default(type="submit")
                             span.glyphicon.glyphicon-search
 
             //- Profile menu
-            if user
-                ul.nav.navbar-nav.navbar-right
-                    li.no-highlight
-                        button.btn.btn-default.navbar-btn
-                            span.glyphicon.glyphicon-upload
-                            span.hidden-sm 
-                                |  Upload
+            ul.nav.navbar-nav.navbar-right
+                li.no-highlight
+                    button.btn.btn-default.navbar-btn
+                        span.glyphicon.glyphicon-upload
+                        span.hidden-sm 
+                            |  Upload
+                li.no-highlight.hidden-xs.hidden-sm.navbar-spacer
+                if user && user.loggedIn
                     li.dropdown
                         a.dropdown-toggle.profilePicHolder(data-toggle="dropdown", href="#")
-                            img.img-circle.profileImg(src="gandalf_crop.jpg")
+                            img.img-circle.profileImg(src="/thumbs/gandalf_crop.jpg")
                             span.hidden-sm= user.username
                             span.caret 
                         ul.dropdown-menu
                             li
-                                a.dropdown-button(href="profile.html")
+                                a.dropdown-button(href="/user/GandalfGrey")
                                     span.glyphicon.glyphicon-bell
                                     |  Notifications
                                     span.badge 2
                             li.divider
                             li
-                                a.dropdown-button(href="profile.html")
+                                a.dropdown-button(href="/user/GandalfGrey")
                                     span.glyphicon.glyphicon-cog
                                     |  Account Settings
                             li
                                 a.dropdown-button(href="#")
                                     span.glyphicon.glyphicon-off
                                     |  Sign Out
+                else
+                    li(class= file === 'login' ? 'active no-highlight' : ''): a(href='/login/') Login
+                    
+

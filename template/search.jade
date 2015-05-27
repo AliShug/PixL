@@ -1,0 +1,54 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Filter box
+            .container-fluid.filter
+                .container
+                    .btn-group
+                        button#drop1.btn.btn-default.dropdown-toggle(
+                            type="button", data-toggle="dropdown",
+                            aria-expanded="false")
+                            |Sort by...
+                        ul.dropdown-menu(role='menu', aria-labelledby='drop1')
+                            - var path = url.replace(/\=(rate|pop|new|rel)/, '=')
+                            - if (path.indexOf('sort=') === -1) path = path + '&sort='
+                            li(class=sort==='rel' ? 'active' : ''): a(href=path.replace('sort=', 'sort=rel')) Most Relevant
+                            li(class=sort==='rate' ? 'active' : ''): a(href=path.replace('sort=', 'sort=rate')) Highest rated
+                            li(class=sort==='pop' ? 'active' : ''): a(href=path.replace('sort=', 'sort=pop')) Most popular
+                            li(class=sort==='new' ? 'active' : ''): a(href=path.replace('sort=', 'sort=new')) Date
+                    .btn-group
+                        button#drop2.btn.btn-default.dropdown-toggle(
+                            type="button", data-toggle="dropdown",
+                            aria-expanded="false")
+                            |Order by...
+                        ul.dropdown-menu(role='menu', aria-labelledby='drop2')
+                            - var path = url.replace(/\=(asc|desc)/, '=')
+                            - if (path.indexOf('ord=') === -1) path = path + '&ord='
+                            li(class=ord==='asc' ? 'active' : ''): a(href=path.replace('ord=', 'ord=asc')) Ascending
+                            li(class=ord==='desc' ? 'active' : ''): a(href=path.replace('ord=', 'ord=desc')) Descending
+
+            //- Main container
+            .container-fluid.background
+                .container
+                    h4 Results for "#[=query]"
+                    each item in results
+                        .panel
+                            .panel-body
+                                .media
+                                    .media-left: a(href="/item/"+item._id)
+                                        img.media-object(src="/thumbs/"+item._id+".png")
+                                    .media-body
+                                        a(href='/item/'+item._id): h4.media-heading=item.name
+                                        p=item.description
+                                        p By #[a(href='/user/'+item.author)=item.author]
+                                    .media-right
+                                        a(href="#"): span.glyphicon.glyphicon-arrow-up: br
+                                        a(href="#"): span.glyphicon.glyphicon-arrow-down
+            //- end main container
+            
+            include ./footer.jade
