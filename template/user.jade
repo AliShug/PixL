@@ -1,0 +1,37 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- User info
+            .container-fluid.background
+                .container.main-view-desc
+                    .row
+                        .panel
+                            .panel-heading
+                                span User: #[=renderUser.username]
+                                .pull-right 22
+                                    |  Uploads
+                            .panel-body
+                                dl
+                                    dt Description
+                                    dd Something
+                        //-.col-md-4
+                            .panel
+                                .panel-heading: small Friends
+                                .panel-body
+                                    - var i = 0
+                                    while i < 5
+                                        .col-md-2.col-sm-2.col-xs-2.slimCol: a(href="/")
+                                            img.mesh-thumb(src="http://placehold.it/40x40")
+                                        - i++
+                                    .col-ms-2.col-sm-2.col-xs-2.slimCol: a(href="/search")
+                                        span.glyphicon.glyphicon-option-horizontal.big-glyph
+
+                //-.container
+                //-    h4 Uploads
+            
+        include ./footer.jade

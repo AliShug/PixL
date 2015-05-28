@@ -13,16 +13,41 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                         h4 New account created!
                     else
                         h4 Sign Up
+                        if errors
+                            if errors.name
+                                .alert.alert-danger(role="alert")
+                                    button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                        span(aria-hidden="true") &times;
+                                    strong Error: 
+                                    =errors.name.msg
+                            if errors.username
+                                .alert.alert-danger(role="alert")
+                                    button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                        span(aria-hidden="true") &times;
+                                    strong Error: 
+                                    =errors.username.msg
+                            if errors.email
+                                .alert.alert-danger(role="alert")
+                                    button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                        span(aria-hidden="true") &times;
+                                    strong Error: 
+                                    =errors.email.msg
+                            if errors.password
+                                .alert.alert-danger(role="alert")
+                                    button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                        span(aria-hidden="true") &times;
+                                    strong Error: 
+                                    =errors.password.msg
                         form(action='', method='post')
                             .form-group
                                 label(for="nameInput") Your Name
-                                input#nameInput.form-control(name="name", type="text", placeholder="Your Name")
+                                input#nameInput.form-control(name="name", type="text", placeholder="Your Name", value=inputs ? inputs.name : '')
                             .form-group
                                 label(for="usernameInput") Username
-                                input#usernameInput.form-control(name="username", type="text", placeholder="Username")
+                                input#usernameInput.form-control(name="username", type="text", placeholder="Username", value=inputs ? inputs.username : '')
                             .form-group
                                 label(for="emailInput") Email
-                                input#emailInput.form-control(name="email", type="email", placeholder="name@example.com")
+                                input#emailInput.form-control(name="email", type="email", placeholder="name@example.com", value=inputs ? inputs.email : '')
                             .form-group
                                 label(for="passInput") Password
                                 input#passInput.form-control(name="password", type="password", placeholder="Password")

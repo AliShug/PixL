@@ -28,7 +28,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
             //- Search-bar
             form.navbar-form.navbar-left(action="/search", method="get")
                 .form-group.input-group
-                    input.form-control(name="q", type="text", placeholder="Search...")
+                    input.form-control(name="q", type="text", placeholder="Search...", value=query?query:'')
                     span.input-group-btn
                         button.btn.btn-default(type="submit")
                             span.glyphicon.glyphicon-search
@@ -44,18 +44,18 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                 if user && user.loggedIn
                     li.dropdown
                         a.dropdown-toggle.profilePicHolder(data-toggle="dropdown")
-                            img.img-circle.profileImg(src="/thumbs/gandalf_crop.jpg")
+                            img.img-circle.profileImg(src="/thumbs/userThumb.jpg")
                             span.hidden-sm= user.username
                             span.caret 
                         ul.dropdown-menu
                             li
-                                a.dropdown-button(href="/user/GandalfGrey")
+                                a.dropdown-button(href="/user/"+user.username)
                                     span.glyphicon.glyphicon-bell
                                     |  Notifications
                                     span.badge 2
                             li.divider
                             li
-                                a.dropdown-button(href="/user/GandalfGrey")
+                                a.dropdown-button(href="/user/"+user.username)
                                     span.glyphicon.glyphicon-cog
                                     |  Account Settings
                             li
