@@ -24,6 +24,8 @@ var express = require('express');
 var app = express();
 
 var session = require('express-session');
+var bodyParser = require('body-parser');
+var multer = require('multer');
 
 // Config
 var ports = [80, 443];
@@ -46,6 +48,30 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended:true }));
+app.use(multer());
+
+// Signup
+app.get('/signup', function(req, res) {
+    if (req.session.loggedIn) {
+        res.redirect(301, '/');
+        return;
+    }
+
+    res.render('signup', {title:'PixL - Signup', file:'signup'});
+});
+app.post('/signup', function(req, res) {
+    if (req.session.loggedIn) {
+        res.redirect(301, '/');
+        return;
+    }
+
+    console.log(req.body);
+    req.session.loggedIn = true;
+    res.render('signup', {title:'Created account!', login_success:true, file:'signup'});
+});
+
 // Login
 app.get('/login', function(req, res) {
     if (req.session.loggedIn) {
@@ -61,8 +87,9 @@ app.post('/login', function(req, res) {
         return;
     }
 
+    console.log(req.body);
     req.session.loggedIn = true;
-    res.render('login', {title:'Logged in!', file:'login'});
+    res.render('login', {title:'Logged in!', login_success:true, file:'login'});
 });
 
 // Logout (just destroy the session)

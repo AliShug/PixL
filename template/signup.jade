@@ -10,18 +10,23 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             .container-fluid.background
                 .container
                     if login_success
-                        h4 Logged in
+                        h4 New account created!
                     else
-                        h4 Login
+                        h4 Sign Up
                         form(action='', method='post')
+                            .form-group
+                                label(for="nameInput") Your Name
+                                input#nameInput.form-control(name="name", type="text", placeholder="Your Name")
+                            .form-group
+                                label(for="usernameInput") Username
+                                input#usernameInput.form-control(name="username", type="text", placeholder="Username")
                             .form-group
                                 label(for="emailInput") Email
                                 input#emailInput.form-control(name="email", type="email", placeholder="name@example.com")
                             .form-group
                                 label(for="passInput") Password
                                 input#passInput.form-control(name="password", type="password", placeholder="Password")
-                            button.btn.btn-default(type="submit") Login
-                            a.btn.btn-default(href="/signup") Sign Up
+                            button.btn.btn-default(type="submit") Submit
             //- end main container
             
             include ./footer.jade
