@@ -10,15 +10,22 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             .container-fluid.background
                 .container.main-view-desc
                     .row
-                        .panel
-                            .panel-heading
-                                span User: #[=renderUser.username]
-                                .pull-right 22
-                                    |  Uploads
-                            .panel-body
-                                dl
-                                    dt Description
-                                    dd Something
+                        .media
+                            .pull-left.media-object(style={'padding-right':'0px'})
+                                img(style={'width':'100%', 'max-width':'200px','height':'auto'}, src=renderUser.imgUrl)
+                            .media-body
+                                .panel-heading
+                                    span User: #[=renderUser.username]
+                                    .pull-right=results.length
+                                        if results.length === 1
+                                            |  Upload
+                                        else
+                                            |  Uploads
+                                .panel-body
+                                    dl
+                                        dt About
+                                        - var date = new Date(renderUser.join_date)
+                                        dd User since: #[=date.toDateString()]
                         //-.col-md-4
                             .panel
                                 .panel-heading: small Friends
@@ -31,7 +38,8 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                     .col-ms-2.col-sm-2.col-xs-2.slimCol: a(href="/search")
                                         span.glyphicon.glyphicon-option-horizontal.big-glyph
 
-                //-.container
-                //-    h4 Uploads
+                .container
+                    h4 Uploads
+                    include ./results_list.jade
             
         include ./footer.jade

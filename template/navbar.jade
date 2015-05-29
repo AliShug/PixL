@@ -33,27 +33,28 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                         button.btn.btn-default(type="submit")
                             span.glyphicon.glyphicon-search
 
-            //- Profile menu
+            //- Upload & profile menu
             ul.nav.navbar-nav.navbar-right
                 li.no-highlight
-                    button.btn.btn-default.navbar-btn
-                        span.glyphicon.glyphicon-upload
-                        span.hidden-sm 
-                            |  Upload
+                    p.navbar-btn
+                        a.btn.btn-default#upload-btn(href='/upload')
+                            span.glyphicon.glyphicon-upload
+                            span.hidden-sm 
+                                |  Upload
                 li.no-highlight.hidden-xs.hidden-sm.navbar-spacer
                 if user && user.loggedIn
                     li.dropdown
-                        a.dropdown-toggle.profilePicHolder(data-toggle="dropdown")
-                            img.img-circle.profileImg(src="/thumbs/userThumb.jpg")
+                        a.dropdown-toggle.profilePicHolder(data-toggle="dropdown", href='')
+                            img.img-circle.profileImg(src=user.imgUrl)
                             span.hidden-sm= user.username
                             span.caret 
                         ul.dropdown-menu
-                            li
+                            //-li
                                 a.dropdown-button(href="/user/"+user.username)
                                     span.glyphicon.glyphicon-bell
                                     |  Notifications
                                     span.badge 2
-                            li.divider
+                            //-li.divider
                             li
                                 a.dropdown-button(href="/user/"+user.username)
                                     span.glyphicon.glyphicon-cog

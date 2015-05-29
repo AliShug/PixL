@@ -18,7 +18,9 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                         .col-md-8
                             .panel
                                 .panel-heading
-                                    span #[=item.name] #[small: em by #[a(href="/user/"+item.author)= item.author]]
+                                    span #[=item.name]
+                                        if item.author
+                                            small: em by #[a(href="/user/"+item.author)= item.author]
                                     .pull-right=item.views
                                         |  Views
                                 .panel-body
@@ -26,7 +28,8 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                         dt Description
                                         dd= item.description
                                         dt Information
-                                        dd: small Uploaded #[= item.upload_date]
+                                        - var date = new Date(item.upload_date)
+                                        dd: small Uploaded: #[= date.toDateString()]
                         .col-md-4
                             .panel
                                 .panel-heading: small More Like This
@@ -60,5 +63,9 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             //- end comments
             
         include ./footer.jade
+        script
+            | var meshPath='
+            =item.path
+            |';
         script(src="/js/three.min.js")
         script(src="/js/main-viewer.js")

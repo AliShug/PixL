@@ -28,6 +28,9 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var validator = require('express-validator');
 
+var fs = require('fs');
+console.log('Running @ '+process.cwd());
+
 // Config
 var ports = [80, 443];
 app.set('views', './template');
@@ -51,26 +54,34 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
-app.use(multer());
+app.use(multer({dest:'./uploads/'}));
 app.use(validator());
+
+var defaultUser = {
+    loggedIn:false,
+    imgUrl:'/thumbs/profile.png'
+};
 
 // Custom user middleware
 app.use(function (req, res, next) {
+    req.user = defaultUser;
+
     if (req.session.loggedIn) {
         db.users.findOne({_id:mongojs.ObjectId(req.session.user_id)}, function(err, user) {
             if (user) {
                 req.user = user;
+                if (!user.imgUrl) req.user.imgUrl = defaultUser.imgUrl;
                 req.user.loggedIn = true;
             }
             else {
                 req.session.loggedIn = false;
-                req.user = {loggedIn:false};
+                req.user.loggedIn = false;
             }
             next();
         });
     }
     else {
-        req.user = {loggedIn:false};
+        req.user.loggedIn = false;
         next();
     }
 });
@@ -80,10 +91,16 @@ app.use(function (req, res, next) {
 app.get('/user/:username', function(req, res, next) {
     db.users.findOne({username:req.params.username}, function(err, user) {
         if (user) {
-            res.render('user', {
-                title:'User '+user.username,
-                user:req.user,
-                renderUser:user
+            if (!user.imgUrl) user.imgUrl = defaultUser.imgUrl;
+            db.items.find({
+                author:user.username
+            }, function(err, items) {
+                res.render('user', {
+                    title:'User '+user.username,
+                    user:req.user,
+                    renderUser:user,
+                    results:items
+                });
             });
         }
         else {
@@ -135,7 +152,8 @@ app.post('/signup', function(req, res) {
                     name:req.body.name,
                     username:req.body.username,
                     email:req.body.email,
-                    password:req.body.password
+                    password:req.body.password,
+                    join_date:Date()
                 });
                 res.render('signup', {title:'Created account!', login_success:true, file:'signup'});
             }
@@ -245,6 +263,83 @@ app.get('/channels', function(req, res) {
     });
 });
 
+// Upload
+app.get('/upload', function(req, res) {
+    res.render('upload', {
+        title:'PixL - Upload',
+        user:req.user
+    });
+});
+app.post('/upload', function(req, res) {
+    if (!req.files.uploadctl) {
+        res.render('upload', {
+            title:'PixL - Upload',
+            user:req.user,
+            error:'must specify a file'
+        });
+        return;
+    }
+
+    var f = req.files.uploadctl;
+
+    if (!req.body.name) {
+        res.render('upload', {
+            title:'PixL - Upload',
+            user:req.user,
+            error:'must specify a name'
+        });
+        fs.unlinkSync(f.path);
+        return;
+    }
+
+    if (f.extension === 'fbx') {
+        // 3D model
+        var id = mongojs.ObjectId();
+        var finalPath = './public/items/'+id+'.json';
+        var localPath = '../items/'+id+'.json';
+        //fs.renameSync('./'+f.path, newPath);
+        db.items.insert({
+            _id:id,
+            type:'3d',
+            path:localPath,
+            name:req.body.name,
+            description:req.body.description,
+            upload_date:Date(),
+            author:req.user.username,
+            views:0
+        }, function(err,item) {
+            res.render('upload', {
+                title:'File upload',
+                upload_success:true,
+                item_id:id,
+                item_name:req.body.name,
+                user:req.user
+            });
+        });
+
+        // Move & convert to threeJS format
+        // (this happens after the request has been served)
+        var pyOptions = {
+            scriptPath:'./py',
+            args:['./'+f.path, finalPath, '-nxf']
+        };
+        pysh.run('convert_to_threejs.py', pyOptions, function(err, results) {
+            if (err) console.log(err);
+            console.log('Results: %j', results);
+        });
+    }
+    else {
+        // Delete the file
+        fs.unlinkSync(f.path);
+        // Show an error
+        res.render('upload', {
+            title:'Upload error',
+            user:req.user,
+            error:'invalid file extension'
+        });
+    }
+});
+
 // Search
 // Performs a database search based on the query (if there is one)
 // Uses the generic search.jade template to display a list of results
@@ -309,6 +404,7 @@ app.get('/search', function(req, res, next) {
 // Passes information on the item to be displayed to the correct template
 app.get('/item/:itemid', function(req, res, next) {
     if (req.params.itemid.length !== 24) {
+        console.log('Invalid item ID');
         next();
         return;
     }
@@ -336,6 +432,9 @@ app.get('/item/:itemid', function(req, res, next) {
         }
         else if (item.type === 'img') {
             res.render('item_img', params);
+        }
+        else {
+            next();
         }
     });
 });

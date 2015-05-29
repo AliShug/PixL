@@ -2,6 +2,7 @@ body {
   padding-top: 50px;
   color: #FFF;
   font-family: 'Open Sans', sans-serif;
+  overflow-x:hidden;
 }
 
 .background {
@@ -79,11 +80,15 @@ body {
   background: url("../logo-min.png") no-repeat;
 }
 
-#upload-btn>a {
-  color: #080808;
-  background-color: #FFAA00;
+a#upload-btn {
+  color: #222;
+  background-color: #FA0;
 }
-#upload-btn>a:hover {
+a#upload-btn:hover {
+  color: #222;
+  background-color: #FFBF3F;
+}
+a#upload-btn:visited {
   color: #222;
 }
 
@@ -192,6 +197,29 @@ a:hover {
 }
 a:visited {
   color: #AA8800;
+}
+a.btn {
+    color: #AAA;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
 }
 
 /*Next/previous*/

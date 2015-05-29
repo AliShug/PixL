@@ -46,3 +46,5 @@ bootstrap-3.3.2-dist.zip
  
 node_modules/
 *.swp
+uploads/
+items/

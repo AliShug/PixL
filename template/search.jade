@@ -37,19 +37,6 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             .container-fluid.background
                 .container
                     h4 Results for "#[=query]"
-                    each item in results
-                        .panel
-                            .panel-body
-                                .media
-                                    .media-left: a(href="/item/"+item._id)
-                                        img.media-object(src="/thumbs/"+item._id+".png")
-                                    .media-body
-                                        a(href='/item/'+item._id): h4.media-heading=item.name
-                                        p=item.description
-                                        p By #[a(href='/user/'+item.author)=item.author]
-                                    .media-right
-                                        a(href="#"): span.glyphicon.glyphicon-arrow-up: br
-                                        a(href="#"): span.glyphicon.glyphicon-arrow-down
-            //- end main container
+                    include ./results_list.jade
             
             include ./footer.jade

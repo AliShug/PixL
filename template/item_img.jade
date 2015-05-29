@@ -18,7 +18,8 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                         .col-md-8
                             .panel
                                 .panel-heading
-                                    span #[=item.name] #[small: em by #[a(href="/user/"+item.author)= item.author]]
+                                    span #[=item.name]
+                                        small: em by #[a(href="/user/"+item.author)= item.author]
                                     .pull-right=item.views
                                         |  Views
                                 .panel-body

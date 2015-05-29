@@ -1,0 +1,41 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Main container
+            .container-fluid.background
+                .container
+                    if upload_success
+                        h4 Item uploaded: #[small: a(href='/item/'+item_id)=item_name]
+                    else
+                        h4 Upload
+                        if error
+                            .alert.alert-danger(role="alert")
+                                button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                    span(aria-hidden="true") &times;
+                                strong Error: 
+                                =error
+                        form(action='', method='post', enctype='multipart/form-data')
+                            .form-group
+                                label(for="fileInput") File*
+                                br
+                                input#fileInput.form-control(type="file", name='uploadctl', accept='.fbx', required)
+                                ul#fileList
+                            .form-group
+                                label(for="nameInput") Name*
+                                input#nameInput.form-control(name="name", type="text", placeholder="Name for new item", required)
+                            .form-group
+                                label(for="descriptionInput") Description
+                                textarea#descriptionInput.form-control(name="description", type="text", placeholder="Description")
+                            button.btn.btn-default(type="submit") Submit
+            //- end main container
+            
+            include ./footer.jade
+            //-script(src="/js/upload/vendor/jquery.ui.widget.js")
+            //-script(src="/js/upload/jquery.iframe-transport.js")
+            //-script(src="/js/upload/jquery.fileupload.js")
+            //-script(src='/js/upload.js')
