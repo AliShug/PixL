@@ -8,10 +8,11 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
         block b_content
             //- Main container
             .container-fluid.background
-                .container
-                    if login_success
+                if login_success
+                    .container
                         h4 New account created!
-                    else
+                else
+                    .container.main-view-desc
                         h4 Sign Up
                         if errors
                             if errors.name
@@ -38,7 +39,7 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                         span(aria-hidden="true") &times;
                                     strong Error: 
                                     =errors.password.msg
-                        form(action='', method='post')
+                        form.well(action='', method='post')
                             .form-group
                                 label(for="nameInput") Your Name
                                 input#nameInput.form-control(name="name", type="text", placeholder="Your Name", value=inputs ? inputs.name : '')

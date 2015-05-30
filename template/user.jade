@@ -26,6 +26,16 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                         dt About
                                         - var date = new Date(renderUser.join_date)
                                         dd User since: #[=date.toDateString()]
+                                        if user._id.toString() === renderUser._id.toString()
+                                            dd
+                                                span.glyphicon.glyphicon-envelope
+                                                |  
+                                                em=user.email
+                                                |  (other users can't see this)
+                                            br
+                                            a(href=user.username+'/edit')
+                                                span.glyphicon.glyphicon-cog
+                                                |  Change email / password
                         //-.col-md-4
                             .panel
                                 .panel-heading: small Friends

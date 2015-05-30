@@ -27,14 +27,14 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                         .panel
                             .panel-body
                                 .media
-                                    .media-left: a(href="item")
+                                    //-.media-left: a(href="item")
                                         img.media-object(src="http://placehold.it/64x64")
-                                    .media-body
-                                        h4.media-heading=chan.name
-                                        p=chan.description
-                                    .media-right
+                                    .media-left.rank-buttons
                                         a(href="#"): span.glyphicon.glyphicon-arrow-up: br
                                         a(href="#"): span.glyphicon.glyphicon-arrow-down
+                                    .media-body
+                                        a(href='/channels/'+chan.name): h4.media-heading=chan.name
+                                        span=chan.description
             //- end main container
             
             include ./footer.jade

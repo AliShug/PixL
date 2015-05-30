@@ -13,6 +13,15 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                         h4 Item uploaded: #[small: a(href='/item/'+item_id)=item_name]
                     else
                         h4 Upload
+                        if !user.loggedIn
+                            .alert.alert-warning(role="alert")
+                                button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                    span(aria-hidden="true") &times;
+                                strong 
+                                    span.glyphicon.glyphicon-alert
+                                    |   Warning: 
+                                | If you upload without #[a(href='/login') signing in], you will not 
+                                | be able to edit or remove the item once submitted.
                         if error
                             .alert.alert-danger(role="alert")
                                 button.close(type="button", data-dismiss="alert", aria-label="Close")
@@ -31,7 +40,12 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                             .form-group
                                 label(for="descriptionInput") Description
                                 textarea#descriptionInput.form-control(name="description", type="text", placeholder="Description")
-                            button.btn.btn-default(type="submit") Submit
+                                br
+                                button.btn.btn-default(type="submit")
+                                    if user.loggedIn
+                                        |Submit
+                                    else
+                                        |Submit Anonymously
             //- end main container
             
             include ./footer.jade

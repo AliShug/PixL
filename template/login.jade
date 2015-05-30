@@ -8,20 +8,45 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
         block b_content
             //- Main container
             .container-fluid.background
-                .container
-                    if login_success
+                if login_success
+                    .container
                         h4 Logged in
-                    else
-                        h4 Login
-                        form(action='', method='post')
-                            .form-group
-                                label(for="emailInput") Email
-                                input#emailInput.form-control(name="email", type="email", placeholder="name@example.com")
-                            .form-group
-                                label(for="passInput") Password
-                                input#passInput.form-control(name="password", type="password", placeholder="Password")
-                            button.btn.btn-default(type="submit") Login
-                            a.btn.btn-default(href="/signup") Sign Up
+                else
+                    .container.main-view-desc
+                        .row
+                            .panel-heading
+                                span Login
+                            .panel-body
+                                if errors
+                                    if errors.email
+                                        .alert.alert-danger(role="alert")
+                                            button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                                span(aria-hidden="true") &times;
+                                            strong Error: 
+                                            =errors.email.msg
+                                    if errors.password
+                                        .alert.alert-danger(role="alert")
+                                            button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                                span(aria-hidden="true") &times;
+                                            strong Error: 
+                                            =errors.password.msg
+                                    if errors.general
+                                        .alert.alert-danger(role="alert")
+                                            button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                                span(aria-hidden="true") &times;
+                                            strong Error: 
+                                            =errors.general.msg
+                                form.well(action='', method='post')
+                                    .input-group
+                                        span.input-group-addon#emailAddon Email
+                                        input.form-control(type='email', name='email', aria-describedby='emailAddon', placeholder='mail@example.com')
+                                    br
+                                    .input-group
+                                        span.input-group-addon#pass1Addon Password
+                                        input.form-control(type='password', name='password', aria-describedby='pass1Addon', placeholder='Your Password')
+                                    br
+                                    button.btn.btn-default(type="submit") Login
+                                    a.btn.btn-default(href="/signup") Sign Up
             //- end main container
             
             include ./footer.jade

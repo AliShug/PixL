@@ -1,0 +1,14 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            .container-fluid.background
+                .container
+                    h2=heading
+                    p=message
+            
+            include ./footer.jade

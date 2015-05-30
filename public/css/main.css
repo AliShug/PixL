@@ -1,202 +1,233 @@
 body {
-  padding-top: 50px;
-  color: #FFF;
-  font-family: 'Open Sans', sans-serif;
-  overflow-x:hidden;
+    padding-top: 50px;
+    color: #FFF;
+    font-family: 'Open Sans', sans-serif;
+    overflow-x:hidden;
 }
 
 .background {
-  background-color: #DDDDDD;
-  padding: 20px;
-  padding-bottom: 80px;
-  background: url("../back-pixel.png");
-  background-position: 0px 0px;
-  min-height: 800px;
+    background-color: #DDDDDD;
+    padding: 20px;
+    padding-bottom: 80px;
+    background: url("../back-pixel.png");
+    background-position: 0px 0px;
+    min-height: 800px;
+}
+
+.well {
+    background-color: #333;
+    border: 1px solid #111;
+}
+
+.alert-warning {
+    background-color: #FF9F20;
+    color: #282828;
+    border-color: #211;
+}
+
+.alert-danger {
+    background-color: #FF2A2A;
+    color: #282828;
+    border-color: #772A2A;
+}
+
+.alert>a {
+    color: #DDD;
+}
+.alert>a:hover {
+    color: #FFF;
+}
+.alert>a:visited {
+    color: #DDD;
 }
 
 .footer {
-  background-color: #222222;
-  min-height: 200px;
-  padding: 0px;
-  color: #DDDDDD;
-  border: 1px solid #080808;
-  border-width: 1px 0 0;
+    background-color: #222222;
+    min-height: 200px;
+    padding: 0px;
+    color: #DDDDDD;
+    border: 1px solid #080808;
+    border-width: 1px 0 0;
 }
 
 .footer-main {
-  border-top: solid 3px #FA0;
-  padding-top: 20px;
+    border-top: solid 3px #FA0;
+    padding-top: 20px;
 }
 
 .footer-main>dl>dt {
-  color: #FFF;
+    color: #FFF;
 }
 .footer-main>dl>dd {
-  padding: 10px;
-  padding-top: 3px;
-  font-size: 13px;
+    padding: 10px;
+    padding-top: 3px;
+    font-size: 13px;
 }
 
 .comments-container {
-  padding: 20px 40px;
+    padding: 20px 40px;
 }
 
 @media (max-width: 768px) {
-  .comments-container {
-    padding: 0px;
-  }
+    .comments-container {
+        padding: 0px;
+    }
 }
 
 /*Dropdown menu recolor*/
 .dropdown-menu {
-  background-color: #222222;
+    background-color: #222222;
 }
 .dropdown-menu li a {
-  color: #AAAAAA;
+    color: #AAAAAA;
 }
 .dropdown-menu .divider {
-  background-color: #222222;
+    background-color: #222222;
 }
 
 /*Navbar decoration*/
 .navbar-nav>li>a.profilePicHolder {
-  padding-top: 6px;
-  padding-bottom: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .navbar-nav>li.active>a {
-  border-bottom: solid 3px #FFAA00;
-  height: 50px;
+    border-bottom: solid 3px #FFAA00;
+    height: 50px;
 }
 
 .navbar-brand {
-  width: 100px;
-  height: 50px;
+    width: 100px;
+    height: 50px;
 }
 
 .navbar-brand>div {
-  width: 100%;
-  height: 100%;
-  background: url("../logo-min.png") no-repeat;
+    width: 100%;
+    height: 100%;
+    background: url("../logo-min.png") no-repeat;
 }
 
 a#upload-btn {
-  color: #222;
-  background-color: #FA0;
+    color: #222;
+    background-color: #FA0;
 }
 a#upload-btn:hover {
-  color: #222;
-  background-color: #FFBF3F;
+    color: #222;
+    background-color: #FFBF3F;
 }
 a#upload-btn:visited {
-  color: #222;
+    color: #222;
 }
 
 .navbar-spacer {
-  width: 20px;
-  height: 50px;
-  border-right: solid 1px #111;
+    width: 20px;
+    height: 50px;
+    border-right: solid 1px #111;
 }
 
 .profileImg {
-  width: 38px;
-  height: 38px;
-  margin-right: 10px;
+    width: 38px;
+    height: 38px;
+    margin-right: 10px;
 }
 
 .navbar-form>.form-group>.form-control {
-  background-color: #666;
-  border-color: #111;
-  color: #FFF;
+    background-color: #666;
+    border-color: #111;
+    color: #FFF;
 }
 
 /*Panel decoration*/
 .panel {
-  background-color: #222;
-  border-radius: 1px;
-  margin: 0px;
-  border-bottom: solid 1px #111;
+    background-color: #222;
+    border-radius: 1px;
+    margin: 0px;
+    border-bottom: solid 1px #111;
 }
 
 .panel-heading {
-  background-color: #222;
-  color: #DDD;
-  font-size: 18px;
-  border-color: #080808;
-  font-family: 'Exo', 'sans-serif';
+    background-color: #222;
+    color: #DDD;
+    font-size: 18px;
+    border-color: #080808;
+    font-family: 'Exo', 'sans-serif';
 }
 .panel-heading>small {
-  color: #AAA;
+    color: #AAA;
 }
 .panel-body {
-  color: #DDD;
+    color: #DDD;
 }
 .panel-body>dl>dd {
-  color: #AAA;
+    color: #AAA;
 }
 .panel-body>small {
-  color: #AAA;
+    color: #AAA;
+}
+
+.rank-buttons {
+    padding-right: 15px;
 }
 
 /*3D Preview*/
 /*This is removed from the usual flow to get overlap*/
 .preview {
-  height: 500px;
-  width: 100%;
-  background-color: #080808;
-  padding: 0px;
-  position: absolute;
-  top: 50px;
+    height: 500px;
+    width: 100%;
+    background-color: #080808;
+    padding: 0px;
+    position: absolute;
+    top: 50px;
 }
 
 #overdraw {
-  position: relative;
-  top: -500px;
-  background-color: transparent;
-  opacity: 1.0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 0px 40px #000000 inset;
-  /*pointer-events: none;*/
+    position: relative;
+    top: -500px;
+    background-color: transparent;
+    opacity: 1.0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 40px #000000 inset;
+    /*pointer-events: none;*/
 
-  padding-top: 20px;
-  padding-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 #viewerHolder {
-  height: 500px;
+    height: 500px;
 }
 
 .preview-panel-offset {
-  height: 500px;
+    height: 500px;
 }
 
 .main-view {
-  height: 700px;
-  width: 100%;
-  background-color: #DADADA;
-  padding: 0px;
+    height: 700px;
+    width: 100%;
+    background-color: #DADADA;
+    padding: 0px;
 }
 
 .main-view-desc {
-  background-color: #222;
+    background-color: #222;
 }
 
 .filter {
-  background-color: #FA0;
-  color: #111;
-  padding: 10px;
+    background-color: #FA0;
+    color: #111;
+    padding: 10px;
 }
 
 /*Standard links*/
 a {
-  color: #FFAA00;
+    color: #FFAA00;
 }
 a:hover {
-  color: #FFE000;
+    color: #FFE000;
 }
 a:visited {
-  color: #AA8800;
+    color: #FFAA00;
 }
 a.btn {
     color: #AAA;
@@ -224,61 +255,61 @@ a.btn {
 
 /*Next/previous*/
 .pager>.next>a, .pager>.previous>a {
-  border-radius: 3px;
-  background-color: #222;
-  border: solid 1px #111;
+    border-radius: 3px;
+    background-color: #222;
+    border: solid 1px #111;
 }
 
 .pager>.next>a:hover, .pager>.previous>a:hover {
-  background-color: #444;
-  border: solid 1px #111;
+    background-color: #444;
+    border: solid 1px #111;
 }
 
 /*Misc*/
 .slimCol {
-  padding-left: 5px;
-  padding-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .big-glyph {
-  font-size: 40px;
+    font-size: 40px;
 }
 
 .mesh-thumb {
-  border: 2px solid transparent;
+    border: 2px solid transparent;
 }
 .mesh-thumb:hover {
-  border: 2px solid #FFAA00;
+    border: 2px solid #FFAA00;
 }
 
 .btn-default {
-  color: #AAA;
-  background-color: #333;
-  border-color: #111;
+    color: #AAA;
+    background-color: #333;
+    border-color: #111;
 }
 .btn-default:hover {
-  color: #FFF;
-  background-color: #FA0;
-  border-color: #111;
+    color: #FFF;
+    background-color: #FA0;
+    border-color: #111;
 }
 .btn-default:focus {
-  color: #FFF;
-  background-color: #E90;
-  border-color: #111;
+    color: #FFF;
+    background-color: #E90;
+    border-color: #111;
 }
 .open>.dropdown-toggle.btn-default {
-  color: #FFF;
-  background-color: #E90;
-  border-color: #111;
+    color: #FFF;
+    background-color: #E90;
+    border-color: #111;
 }
 
 .no-padding {
-  padding: 0px;
+    padding: 0px;
 }
 
 h1 {
-  font-family: 'Exo', 'sans-serif';
-  font-weight: 400;
+    font-family: 'Exo', 'sans-serif';
+    font-weight: 400;
 }
 
 h4 {

@@ -110,6 +110,58 @@ app.get('/user/:username', function(req, res, next) {
     });
 });
 
+// User edit
+app.post('/user/:username/edit', function(req, res) {
+    if (req.user.loggedIn) {
+        req.checkBody('email', 'valid email required').isEmail();
+        req.checkBody('password', 'password of length 6-20 characters required').len(6,20);
+
+        if (req.validationErrors()) {
+            res.render('user_edit', {
+                title:'Edit '+req.user.username,
+                user:req.user,
+                errors:req.validationErrors(true)
+            });
+        }
+        else {
+           db.users.update({_id:mongojs.ObjectId(req.user._id)}, {
+               $set : {
+                   email:req.body.email,
+                   password:req.body.password
+               }
+           }, function() {
+               res.redirect('/user/'+req.user.username);
+           });
+        }
+    }
+    else {
+        // Show permission error
+        res.render('error', {
+            title:'Permission Denied',
+            user:req.user,
+            heading:'Error',
+            message:'You can\'t edit accounts other than your own'
+        });
+    }
+});
+app.get('/user/:username/edit', function(req, res) {
+    if (req.user.loggedIn) {
+        res.render('user_edit', {
+            title:'Edit '+req.user.username,
+            user:req.user
+        });
+    }
+    else {
+        // Show permission error
+        res.render('error', {
+            title:'Permission Denied',
+            user:req.user,
+            heading:'Error',
+            message:'You can\'t edit accounts other than your own'
+        });
+    }
+});
+
 // Signup
 app.get('/signup', function(req, res) {
     if (req.user.loggedIn) {
@@ -194,8 +246,8 @@ app.post('/login', function(req, res) {
     }
 
     // Check input
-    req.checkBody('email').isEmail();
-    req.checkBody('password').notEmpty();
+    req.checkBody('email', 'must use valid email').isEmail();
+    req.checkBody('password', 'no password supplied').notEmpty();
 
     if (req.validationErrors()) {
         res.render('login', {
@@ -203,7 +255,8 @@ app.post('/login', function(req, res) {
             file:'login',
             inputs:{
                 email:req.body.email
-            }
+            },
+            errors:req.validationErrors(true)
         });
     }
     else {
@@ -214,13 +267,9 @@ app.post('/login', function(req, res) {
             if (user) {
                 req.session.user_id = user._id;
                 console.log('Logged in ' + user.username);
+
                 req.session.loggedIn = true;
-                res.render('login', {
-                    title:'Logged in!',
-                    login_success:true,
-                    file:'login',
-                    user:req.user
-                });
+                res.redirect(301, '/');
             }
             else {
                 res.render('login', {
@@ -228,6 +277,9 @@ app.post('/login', function(req, res) {
                     file:'login',
                     inputs:{
                         email:req.body.email
+                    },
+                    errors:{
+                        general:{msg:'invalid email/password combination'}
                     }
                 });
             }
@@ -263,6 +315,59 @@ app.get('/channels', function(req, res) {
     });
 });
 
+// Channel pages
+app.get('/channels/:channel', function(req, res, next) {
+    db.channels.findOne({name:req.params.channel}, function(err, channel) {
+        if (!channel) {
+            next();
+            return;
+        }
+
+        var sort = '';
+        var ord = 0;
+
+        var query = req.query;
+
+        if (!query.sort) sort = 'rate';
+        else sort = query.sort;
+
+        if (!query.ord) ord = 'desc';
+        else ord = query.ord;
+
+        var sortord = 0;
+        if (ord === 'asc') sortord = 1;
+        else if (ord === 'desc') sortord = -1;
+
+        var sorter = {};
+        switch (sort) {
+            case 'rate':
+                sorter.views = sortord;
+                break;
+            case 'pop':
+                sorter.views = sortord;
+                break;
+            case 'new':
+                sorter._id = sortord;
+                break;
+        }
+
+        // Find items with 1 or more tags in the channel tags
+        db.items.find({
+            tags:{$in:channel.tags}
+        }).sort(sorter, function(err, items) {
+            res.render('channel', {
+                url:req.url,
+                title:'PixL - '+channel.name,
+                user:req.user,
+                channel:channel,
+                results:items,
+                sort:sort,
+                ord:ord
+            });
+        });
+    });
+});
+
 // Upload
 app.get('/upload', function(req, res) {
     res.render('upload', {
@@ -292,7 +397,7 @@ app.post('/upload', function(req, res) {
         return;
     }
 
-    if (f.extension === 'fbx') {
+    if (['fbx', 'obj', '3ds', 'dae'].indexOf(f.extension) > -1) {
         // 3D model
         var id = mongojs.ObjectId();
         var finalPath = './public/items/'+id+'.json';
@@ -315,18 +420,29 @@ app.post('/upload', function(req, res) {
                 item_name:req.body.name,
                 user:req.user
             });
+            // Move & convert to threeJS format
+            var pyOptions = {
+                scriptPath:'./py',
+                args:['./'+f.path, finalPath, '-nxf']
+            };
+            pysh.run('convert_to_threejs.py', pyOptions, function(err, results) {
+                if (err) {
+                    console.log(err);
+                    console.log('Deleting item');
+                    if (fs.existsSync(finalPath)) {
+                        fs.unlinkSync(finalPath);
+                    }
+                    db.items.remove({_id:id});
+                }
+                else {
+                    console.log('Results: %j', results);
+                }
+
+                // Delete the original uploaded file
+                //fs.unlinkSync(f.path);
+            });
         });
 
-        // Move & convert to threeJS format
-        // (this happens after the request has been served)
-        var pyOptions = {
-            scriptPath:'./py',
-            args:['./'+f.path, finalPath, '-nxf']
-        };
-        pysh.run('convert_to_threejs.py', pyOptions, function(err, results) {
-            if (err) console.log(err);
-            console.log('Results: %j', results);
-        });
     }
     else {
         // Delete the file
@@ -395,7 +511,6 @@ app.get('/search', function(req, res, next) {
             ord : ord
         };
         
-        console.log(params);
         res.render('search', params);
     });
 });

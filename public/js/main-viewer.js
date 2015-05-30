@@ -49,7 +49,8 @@ function preview_init() {
     preview_resize();
 
 	//mesh = new THREE.Mesh(geometry, material);
-    loader.load(meshPath, function(geom) {
+    loader.load(meshPath, function(geom, mats) {
+        console.log(mats);
         mesh = new THREE.Mesh(geom, material);
 	    scene.add(mesh);
 

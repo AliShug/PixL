@@ -1,0 +1,42 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- Filter box
+            .container-fluid.filter
+                .container
+                    .btn-group
+                        button#drop1.btn.btn-default.dropdown-toggle(
+                            type="button", data-toggle="dropdown",
+                            aria-expanded="false")
+                            |Sort by...
+                        ul.dropdown-menu(role='menu', aria-labelledby='drop1')
+                            - var path = url.replace(/[&]sort\=(rate|pop|new)/, '')
+                            - path = path + '&sort='
+                            li(class=sort==='rate' ? 'active' : ''): a(href=path.replace('sort=', 'sort=rate')) Highest rated
+                            li(class=sort==='pop' ? 'active' : ''): a(href=path.replace('sort=', 'sort=pop')) Most popular
+                            li(class=sort==='new' ? 'active' : ''): a(href=path.replace('sort=', 'sort=new')) Date
+                    if sort!=='rel'
+                        .btn-group
+                            button#drop2.btn.btn-default.dropdown-toggle(
+                                type="button", data-toggle="dropdown",
+                                aria-expanded="false")
+                                |Order by...
+                            ul.dropdown-menu(role='menu', aria-labelledby='drop2')
+                                - var path = url.replace(/[&]ord\=(asc|desc)/, '')
+                                - path = path + '&ord='
+                                li(class=ord==='asc' ? 'active' : ''): a(href=path.replace('ord=', 'ord=asc')) Ascending
+                                li(class=ord==='desc' ? 'active' : ''): a(href=path.replace('ord=', 'ord=desc')) Descending
+
+            //- Main container
+            .container-fluid.background
+                .container
+                    h4=channel.name
+                    p=channel.description
+                    include ./results_list.jade
+            
+            include ./footer.jade

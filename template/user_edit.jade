@@ -1,0 +1,49 @@
+doctype html
+html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
+    head
+        include ./head.jade
+    body
+        include ./navbar.jade
+
+        block b_content
+            //- User info
+            .container-fluid.background
+                .container.main-view-desc
+                    .row
+                        .panel-heading
+                            span User: #[=user.username]
+                        .panel-body
+                            dl
+                                dt About
+                                - var date = new Date(user.join_date)
+                                dd User since: #[=date.toDateString()]
+                            if errors
+                                if errors.email
+                                    .alert.alert-danger(role="alert")
+                                        button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                            span(aria-hidden="true") &times;
+                                        strong Error: 
+                                        =errors.email.msg
+                                if errors.password
+                                    .alert.alert-danger(role="alert")
+                                        button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                            span(aria-hidden="true") &times;
+                                        strong Error: 
+                                        =errors.password.msg
+                            form.well(action='', method='post')
+                                .input-group
+                                    span.input-group-addon#emailAddon New Email
+                                    input.form-control(type='email', name='email', aria-describedby='emailAddon', value=user.email)
+                                br
+                                .input-group
+                                    span.input-group-addon#pass1Addon New Password
+                                    input.form-control(type='password', name='password', aria-describedby='pass1Addon', value=user.password)
+                                br
+                                button.btn.btn-default(type='submit')
+                                    span.glyphicon.glyphicon-ok
+                                    |  Save changes
+                                |  
+                                a.btn.btn-default(href='/user/'+user.username)
+                                    span.glyphicon.glyphicon-remove
+                                    |  Cancel
+        include ./footer.jade
