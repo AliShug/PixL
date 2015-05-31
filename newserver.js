@@ -64,6 +64,10 @@ var defaultUser = {
     imgUrl:'/thumbs/profile.png'
 };
 
+app.get('/report', function(req, res) {
+    res.render('report', {title:'Report'});
+});
+
 // Custom user middleware
 app.use(function (req, res, next) {
     req.user = defaultUser;
