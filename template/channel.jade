@@ -15,6 +15,7 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                             aria-expanded="false")
                             |Sort by...
                         ul.dropdown-menu(role='menu', aria-labelledby='drop1')
+                            - if (url.indexOf('?') === - 1) url = url + '?'
                             - var path = url.replace(/[&]sort\=(rate|pop|new)/, '')
                             - path = path + '&sort='
                             li(class=sort==='rate' ? 'active' : ''): a(href=path.replace('sort=', 'sort=rate')) Highest rated

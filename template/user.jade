@@ -12,7 +12,11 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                     .row
                         .media
                             .pull-left.media-object(style={'padding-right':'0px'})
-                                img(style={'width':'100%', 'max-width':'200px','height':'auto'}, src=renderUser.imgUrl)
+                                img.img-rounded(style={
+                                    'width':'100%',
+                                    'max-width':'100px',
+                                    'height':'auto',
+                                    'margin':'15px'}, src=renderUser.imgUrl)
                             .media-body
                                 .panel-heading
                                     span User: #[=renderUser.username]
@@ -22,16 +26,15 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                         else
                                             |  Uploads
                                 .panel-body
-                                    dl
+                                    dl.well
                                         dt About
                                         - var date = new Date(renderUser.join_date)
                                         dd User since: #[=date.toDateString()]
-                                        if user._id.toString() === renderUser._id.toString()
+                                        if user._id && user._id.toString() === renderUser._id.toString()
                                             dd
-                                                span.glyphicon.glyphicon-envelope
-                                                |  
-                                                em=user.email
-                                                |  (other users can't see this)
+                                                |Email: 
+                                                abbr(title='Other users can\'t see this')
+                                                    em=user.email
                                             br
                                             a(href=user.username+'/edit')
                                                 span.glyphicon.glyphicon-cog

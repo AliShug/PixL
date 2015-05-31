@@ -2,10 +2,14 @@ var scene, camera, renderer;
 var geometry, material, mesh;
 var time = 0;
 var lastTime;
+var loader;
+var meshPos = new THREE.Vector3();
+var dist = 0;
 
 $(document).ready(function() {
 	if (typeof THREE != "undefined") {
 		lastTime = getTimestamp();
+        loader = new THREE.JSONLoader();
 
 		preview_init();
 		preview_animate();
@@ -23,34 +27,49 @@ function preview_init() {
 
 	geometry = new THREE.BoxGeometry(200, 200, 200);
 	material = new THREE.MeshLambertMaterial({
-		color: 0xFF2222
+		color: 0xFF2222,
+        side: THREE.DoubleSide
 	});
 
-	mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
+    renderer = new THREE.WebGLRenderer({
+        antialiasing: true
+    });
 
-	var light = new THREE.PointLight(0xffffff, 2, 1000);
-	light.position.set(0,300,400);
-	scene.add(light);
+    // Light background
+    renderer.setClearColor(0xDADADA, 1);
 
-	renderer = new THREE.WebGLRenderer({
-		antialiasing: true
-	});
-	
-	// Set the preview size
-	preview_resize();
+    // Fade-in
+    $(renderer.domElement).css("opacity", 0.0).animate({
+        opacity: 1.0,
+    }, 2000, function() {
+        // Animation complete
+    });
 
-	// Light background
-	renderer.setClearColor(0xDADADA, 1);
+    $("#viewerHolder").html(renderer.domElement);
 
-	// Fade-in
-	$(renderer.domElement).css("opacity", 0.0).animate({
-		opacity: 1.0,
-	}, 2000, function() {
-		// Animation complete
-	});
+    // Set the preview size
+    preview_resize();
 
-	$("#viewerHolder").html(renderer.domElement);
+	//mesh = new THREE.Mesh(geometry, material);
+    loader.load(meshPath, function(geom, mats) {
+        console.log(mats);
+        mesh = new THREE.Mesh(geom, material);
+	    scene.add(mesh);
+
+        // Move camera to view correctly
+        geom.computeBoundingBox();
+        var min = geom.boundingBox.min;
+        var max = geom.boundingBox.max;
+        dist = Math.max(min.length(), max.length());
+        camera.position.z = dist*2;
+        console.log(min.length);
+
+        var light = new THREE.PointLight(0xffffff, 2, 1000);
+        light.position.set(0,300,400);
+        scene.add(light);
+
+        mesh.position.x = meshPos.x * dist;
+    });
 }
 
 function preview_animate() {
@@ -60,6 +79,8 @@ function preview_animate() {
 
 	var deltaTime = getTimestamp() - lastTime;
 	lastTime = getTimestamp();
+
+    if (!mesh) return;
 
 	mesh.rotation.y += deltaTime / 3000;
 	mesh.rotation.x = Math.sin(time/1000)/3 + 0.5;
@@ -71,11 +92,13 @@ function preview_animate() {
 function preview_resize() {
 	// Move display mesh if needed, and adjust window height
 	if (window.innerWidth < 768) {
-		mesh.position.x = 0;
+        meshPos.x = 0;
+		if (mesh) mesh.position.x = meshPos.x * dist;
 		$(".preview, .preview-panel-offset").height(250);
 	}
 	else {
-		mesh.position.x = -300;
+        meshPos.x = -0.5;
+		if (mesh) mesh.position.x = meshPos.x * dist;
 		$(".preview, .preview-panel-offset").height(500);
 	}
 

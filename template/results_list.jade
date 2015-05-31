@@ -4,10 +4,18 @@ each item in results
             .media
                 //-.media-left: a(href="/item/"+item._id)
                     img.media-object(src="/thumbs/"+item._id+".png")
+                .media-left.rank-buttons
+                    a(href="#"): span.glyphicon.glyphicon-arrow-up: br
+                    a(href="#"): span.glyphicon.glyphicon-arrow-down
                 .media-body
                     a(href='/item/'+item._id): h4.media-heading=item.name
                     p=item.description
-                    p By #[a(href='/user/'+item.author)=item.author]
-                .media-right
-                    a(href="#"): span.glyphicon.glyphicon-arrow-up: br
-                    a(href="#"): span.glyphicon.glyphicon-arrow-down
+                    if item.author
+                        p By #[a(href='/user/'+item.author)=item.author]
+                    else
+                        p: em(style={'color':'#AAA'}) Uploaded anonymously
+                if user.admin || item.author === user.username
+                    .media-right
+                        button.btn.btn-default.delItem(data-item=item._id) Delete
+                        if user.admin
+                            button.btn.btn-default.featureItem(data-item=item._id) Feature

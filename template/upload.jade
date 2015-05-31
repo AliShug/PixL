@@ -8,47 +8,55 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
         block b_content
             //- Main container
             .container-fluid.background
-                .container
-                    if upload_success
+                if upload_success
+                    .container
                         h4 Item uploaded: #[small: a(href='/item/'+item_id)=item_name]
-                    else
-                        h4 Upload
-                        if !user.loggedIn
-                            .alert.alert-warning(role="alert")
-                                button.close(type="button", data-dismiss="alert", aria-label="Close")
-                                    span(aria-hidden="true") &times;
-                                strong 
-                                    span.glyphicon.glyphicon-alert
-                                    |   Warning: 
-                                | If you upload without #[a(href='/login') signing in], you will not 
-                                | be able to edit or remove the item once submitted.
-                        if error
-                            .alert.alert-danger(role="alert")
-                                button.close(type="button", data-dismiss="alert", aria-label="Close")
-                                    span(aria-hidden="true") &times;
-                                strong Error: 
-                                =error
-                        form(action='', method='post', enctype='multipart/form-data')
-                            .form-group
-                                label(for="fileInput") File*
-                                br
-                                input#fileInput.form-control(type="file", name='uploadctl', accept='.fbx', required)
-                                ul#fileList
-                            .form-group
-                                label(for="nameInput") Name*
-                                input#nameInput.form-control(name="name", type="text", placeholder="Name for new item", required)
-                            .form-group
-                                label(for="descriptionInput") Description
-                                textarea#descriptionInput.form-control(name="description", type="text", placeholder="Description")
-                                br
-                                button.btn.btn-default(type="submit")
-                                    if user.loggedIn
-                                        |Submit
-                                    else
-                                        |Submit Anonymously
+                else
+                    .container.main-view-desc
+                        .row
+                            .panel-heading
+                                h4 Upload .FBX
+                            .panel-body
+                                if !user.loggedIn
+                                    .alert.alert-warning(role="alert")
+                                        button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                            span(aria-hidden="true") &times;
+                                        span.glyphicon.glyphicon-alert
+                                        strong 
+                                            |   Warning: 
+                                        | If you upload without #[a(href='/login') signing in], you will not 
+                                        | be able to edit or remove the item once submitted.
+                                if error
+                                    .alert.alert-danger(role="alert")
+                                        button.close(type="button", data-dismiss="alert", aria-label="Close")
+                                            span(aria-hidden="true") &times;
+                                        strong Error: 
+                                        =error
+                                form.well#uploadForm(action='', method='post', enctype='multipart/form-data')
+                                    .form-group
+                                        label(for="fileInput") File*
+                                        br
+                                        input#fileInput.form-control(type="file", name='uploadctl', accept='.fbx', required)
+                                        ul#fileList
+                                    .form-group
+                                        label(for="nameInput") Name*
+                                        input#nameInput.form-control(name="name", type="text", placeholder="Name for new item", required)
+                                    .form-group
+                                        label(for="descriptionInput") Description
+                                        textarea#descriptionInput.form-control(name="description", type="text", placeholder="Description")
+                                    .form-group
+                                        label(for="tagInput") Tags #[span#tagCount 0/20]
+                                        input#tagInput.form-control(name="tags", type="text", placeholder="e.g. model, cool, beautiful")
+                                        br
+                                        button.btn.btn-default#submitBtn(type="submit")
+                                            if user.loggedIn
+                                                |Submit
+                                            else
+                                                |Submit Anonymously
             //- end main container
             
             include ./footer.jade
+            script(src='/js/uploadForm.js')
             //-script(src="/js/upload/vendor/jquery.ui.widget.js")
             //-script(src="/js/upload/jquery.iframe-transport.js")
             //-script(src="/js/upload/jquery.fileupload.js")

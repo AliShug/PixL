@@ -19,6 +19,7 @@ db.on('error',function(err) {
         console.log('Database error', err);
 });
 
+
 // Express
 var express = require('express');
 var app = express();
@@ -27,6 +28,8 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var validator = require('express-validator');
+
+var MongoStore = require('connect-mongo')(session);
 
 var fs = require('fs');
 console.log('Running @ '+process.cwd());
@@ -44,13 +47,12 @@ app.locals.pretty = true;
 app.use(session({
     secret : 'nazis on the moon',
     cookie : {},
-    saveUninitialized : true
+    saveUninitialized : true,
+    store: new MongoStore({
+        url:'mongodb://localhost/pixl'
+    })
 }));
 
-app.use(function(req, res, next) {
-    //if (!req.session.loggedIn) req.session.loggedIn = false;
-    next();
-});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -83,6 +85,141 @@ app.use(function (req, res, next) {
     else {
         req.user.loggedIn = false;
         next();
+    }
+});
+
+// Custom item fetch middleware
+app.use('/item/:itemid*', function (req, res, next) {
+    // Check id length
+    if (req.params.itemid.length !== 24) {
+        res.render('error', {
+            title:'Error',
+            heading:'Badly formed item ID',
+            message:'That item doesn\'t seem to exist'
+        });
+        return;
+    }
+
+    db.items.findOne({_id : mongojs.ObjectId(req.params.itemid.toString())}, function(err, item) {
+        if (!item) {
+            // Error immediately
+            res.render('error', {
+                title:'Error',
+                heading:'Missing Item',
+                message:'That item doesn\'t seem to exist'
+            });
+        }
+        else {
+            req.item = item;
+            next();
+        }
+    });
+});
+
+// Ajax API
+app.get('/api/deleteitem/:itemid', function(req, res) {
+    if (!req.user) {
+        res.send('You don\'t have permission to do that');
+        return;
+    }
+
+    try {
+        var id = req.params.itemid;
+        db.items.findOne({_id:mongojs.ObjectId(id)}, function(err, item) {
+            if (!item) {
+                res.send('Could not find '+id);
+                return;
+            }
+
+            // Permissions
+            if (!req.user.admin && item.author !== req.user.username) {
+                res.send('You don\'t have permission to do that');
+            }
+            else {
+                try {
+                    fs.unlinkSync('./public/items/'+item._id+'.json');
+                    console.log('Deleted '+item._id+'.json');
+                }
+                catch (e) {console.log(e);}
+                db.items.remove({
+                    _id:mongojs.ObjectId(id)
+                }, function() {
+                    res.send('Success');
+                });
+            }
+        });
+    }
+    catch (e) {
+        res.send(e.message);
+    }
+});
+app.get('/api/featureitem/:itemid', function(req, res) {
+    if (!req.user) {
+        res.send('You don\'t have permission to do that');
+        return;
+    }
+
+    try {
+        var id = req.params.itemid;
+        db.items.findOne({_id:mongojs.ObjectId(id)}, function(err, item) {
+            if (!item) {
+                res.send('Could not find '+id);
+                return;
+            }
+
+            // Permissions
+            if (!req.user.admin) {
+                res.send('You don\'t have permission to do that');
+            }
+            else {
+                // Update featured_id
+                db.pages.update({
+                    file:'landing'
+                }, {$set:{
+                    featured_id:item._id
+                }}, function() {
+                    res.send('Success');
+                });
+            }
+        });
+    }
+    catch (e) {
+        res.send(e.message);
+    }
+});
+app.get('/api/postcomment/:itemid', function(req, res) {
+    if (!req.user) {
+        res.send('You don\'t have permission to do that');
+        return;
+    }
+
+    var msg = req.query.msg;
+    var author = req.query.author;
+    if (!msg || !author) {
+        res.send('Message/author required');
+    }
+
+    try {
+        var id = req.params.itemid;
+        db.items.findOne({_id:mongojs.ObjectId(id)}, function(err, item) {
+            if (!item) {
+                res.send('Could not find '+id);
+                return;
+            }
+
+            // Add a comment
+            db.items.update({
+                _id:item._id
+            }, {$push:{comments:{
+                author:author,
+                msg:msg
+            }}}, function() {
+                res.render('comment', {genComment:true, author:author, msg:msg});
+            });
+        });
+    }
+    catch (e) {
+        res.send(e.message);
     }
 });
 
@@ -376,7 +513,7 @@ app.get('/upload', function(req, res) {
     });
 });
 app.post('/upload', function(req, res) {
-    if (!req.files.uploadctl) {
+    if (!req.files.uploadctl || !fs.existsSync('./'+req.files.uploadctl.path)) {
         res.render('upload', {
             title:'PixL - Upload',
             user:req.user,
@@ -397,6 +534,28 @@ app.post('/upload', function(req, res) {
         return;
     }
 
+    // Grab the tags and remove trailing/leading whitespace
+    var tags = [];
+    if (req.body.tags) {
+        var _tags = req.body.tags.split(',');
+        for (var i = 0; i < _tags.length; i++) {
+            var t = _tags[i].trim();
+            if (t !== '') {
+                tags.push(t);
+            }
+        }
+    }
+
+    if (tags.length > 20) {
+        res.render('upload', {
+            title:'PixL - Upload',
+            user:req.user,
+            error:'too many tags'
+        });
+        fs.unlinkSync(f.path);
+        return;
+    }
+
     if (['fbx', 'obj', '3ds', 'dae'].indexOf(f.extension) > -1) {
         // 3D model
         var id = mongojs.ObjectId();
@@ -411,7 +570,8 @@ app.post('/upload', function(req, res) {
             description:req.body.description,
             upload_date:Date(),
             author:req.user.username,
-            views:0
+            views:0,
+            tags:['3d', f.extension].concat(tags)
         }, function(err,item) {
             res.render('upload', {
                 title:'File upload',
@@ -454,6 +614,11 @@ app.post('/upload', function(req, res) {
             error:'invalid file extension'
         });
     }
+});
+
+// Item deletion
+app.get('/item/:itemid/delete', function(req, res, next) {
+
 });
 
 // Search
@@ -518,40 +683,27 @@ app.get('/search', function(req, res, next) {
 // Item pages
 // Passes information on the item to be displayed to the correct template
 app.get('/item/:itemid', function(req, res, next) {
-    if (req.params.itemid.length !== 24) {
-        console.log('Invalid item ID');
-        next();
-        return;
+    var params = {
+        title : req.item.name,
+        item : req.item,
+        user : req.user
     }
 
-    //console.log(req.params.itemid);
-    //console.log(mongojs.ObjectId(req.params.itemid));
-    db.items.findOne({_id : mongojs.ObjectId(req.params.itemid.toString())}, function(err, item) {
-        if (!item) {
-            console.log("Item " + req.params.itemid + ": unrecognized ID");
-            next();
-            return;
-        }
+    // Register a view on the item
+    db.items.update({_id : req.item._id}, {$inc:{views:1}});
 
-        var params = {
-            title : item.name,
-            item : item,
-            user : req.user
-        }
+    // Reverse comment order
+    params.item.comments.reverse();
 
-        // Register a view on the item
-        db.items.update({_id : item._id}, {$inc:{views:1}});
-
-        if (item.type === '3d') {
-            res.render('item_3d', params);
-        }
-        else if (item.type === 'img') {
-            res.render('item_img', params);
-        }
-        else {
-            next();
-        }
-    });
+    if (req.item.type === '3d') {
+        res.render('item_3d', params);
+    }
+    else if (req.item.type === 'img') {
+        res.render('item_img', params);
+    }
+    else {
+        next();
+    }
 });
 
 // Testing thing

@@ -1,0 +1,17 @@
+mixin comment(c)
+    li.media.well
+        a.media-left(href="/user/"+c.author)
+            img.hidden-xs(style={
+                width:'40px',
+                height:'auto'}, src='/thumbs/profile.png')
+        .media-body
+            a(href='/user/'+c.author): h4.media-heading=c.author
+            p=c.msg
+            //-p
+                a(href="#") Like
+                |/
+                a(href="#") Dislike 
+                a(href="#") Reply
+
+if genComment
+    +comment({author:author, msg:msg})

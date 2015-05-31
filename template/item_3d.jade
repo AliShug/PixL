@@ -21,15 +21,24 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
                                     span #[=item.name]
                                         if item.author
                                             small: em  by #[a(href="/user/"+item.author)= item.author]
+                                        else
+                                            small: em(style={'color':'#AAA'})  Uploaded anonymously
                                     .pull-right=item.views
                                         |  Views
                                 .panel-body
                                     dl
-                                        dt Description
-                                        dd= item.description
+                                        if item.description
+                                            dt Description
+                                            dd= item.description
                                         dt Information
                                         - var date = new Date(item.upload_date)
                                         dd: small Uploaded: #[= date.toDateString()]
+                                        if item.tags && item.tags.length > 0
+                                            dt Tags
+                                            dd
+                                                each tag in item.tags
+                                                    a(href='/search?q='+tag)=tag
+                                                    |, 
                         .col-md-4
                             .panel
                                 .panel-heading: small More Like This
@@ -44,22 +53,32 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             //- end info/options
 
             //- Comments
+            mixin comment-form
+                if user.loggedIn
+                    .container#commentBox
+                        h4 Post Comment
+                        .well
+                            .form-group
+                                textarea.form-control#commentInput(name='comment', placeholder='Enter comment...')
+                            button.btn.btn-default#commentBtn(data-item=item._id) Post as #[=user.username]
+                else
+                    h4 Please #[a(href='/login') login] to post a comment
+                        
+            include ./comment.jade
+
             .container-fluid.background
                 .container
-                    .h1 Comments #[small 1-n of N]
-                    .col-md-8.comments-container
-                        ul.media-list
-                            li.media
-                                a.media-left(href="/user/null")
-                                    img.hidden-xs(src="icons/userthumb.png")
-                                .media-body
-                                    h4.media-heading Null user
-                                    p A comment
-                                    p
-                                        a(href="#") Like
-                                        |/
-                                        a(href="#") Dislike 
-                                        a(href="#") Reply
+                    if !item.comments
+                        .h1 No Comments
+                        +comment-form
+                    else
+                        .h1 #[=item.comments.length] Comment
+                            if item.comments.length !== 1
+                                |s
+                        +comment-form
+                        .col-md-8.comments-container: ul.media-list#commentsContainer
+                            each c in item.comments
+                                +comment(c)
             //- end comments
             
         include ./footer.jade
@@ -67,5 +86,9 @@ html(xmlns="http://www.w3.org/1999/xhtml", lang="en-GB", xml:lang="en-GB")
             | var meshPath='
             =item.path
             |';
+            | var username='
+            =user.username
+            |';
         script(src="/js/three.min.js")
         script(src="/js/main-viewer.js")
+        script(src='/js/comments.js')

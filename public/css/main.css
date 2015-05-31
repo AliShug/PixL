@@ -32,13 +32,13 @@ body {
 }
 
 .alert>a {
-    color: #DDD;
+    color: #FFF;
 }
 .alert>a:hover {
     color: #FFF;
 }
 .alert>a:visited {
-    color: #DDD;
+    color: #FFF;
 }
 
 .footer {
@@ -73,6 +73,7 @@ body {
         padding: 0px;
     }
 }
+
 
 /*Dropdown menu recolor*/
 .dropdown-menu {
@@ -228,6 +229,12 @@ a:hover {
 }
 a:visited {
     color: #FFAA00;
+}
+a:active {
+    color: #FA0;
+}
+a:focus {
+    color: #FA0;
 }
 a.btn {
     color: #AAA;
