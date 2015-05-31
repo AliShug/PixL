@@ -1,124 +1,102 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Report - AW12700</title>
-
-  <!-- Bootstrap's CSS -->
-  <!-- Latest compiled and minified CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <!--Additional fonts-->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,600,400' rel='stylesheet' type='text/css' />
-  <link href='http://fonts.googleapis.com/css?family=Exo:200,400,700' rel='stylesheet' type='text/css' />
-</head>
-
-<body>
-  <div class="container">
-    <h1>Report <small>Alistair Wick AW12700</small></h1>
-
-    <h2>Idea</h2>
-    <p><em>PixL</em> is a simple platform for sharing, rating and discussing visual media, including 3D models and images. It is designed to be accessed from
-    both desktop and mobile browsers, displaying interactive in-browser 3D content where WebGL features are supported; I felt this would provide a sufficient
-    technical challenge for the assignment, and it caters to my personal interest in 3D modelling and rendering.</p>
-
-    <p>I wanted to create a ratings system similar to Reddit or Imgur's collective user voting, where each user gets one "up" or "down" vote per item. This 
-    approach has been shown to work well for maximising visibility of the best content, and offers some degree of user participation to help create a community
-    which will come back regularly for more. Something akin to Reddit's comment system would also help in this regard, again with user voting to drive the best
-    comments to the top.</p>
-
-    <h2>Design</h2>
-    <p>I've tried to come up with a layout that should be fairly intuitive, and which doesn't diverge too much from the type of design Bootstrap was intended for.
-    Some familiar features are readily apparent: the "home" button is also the site logo, links along the static navigation bar take you to different sections of the
-    site, and a user's account options are available in the top right-hand corner of the screen.</p>
-
-    <h3>Images</h3>
-    <p>Graphic design wasn't a focus for me in creating the site, but I did experiment with background patterns I found online before settling on a simple design
-    I amde myself in GIMP (it's a patch of noise scaled up with no scaling filter to create a pixellated look). The <a href="logo.svg">site's logo</a> was similarly
-    designed in Inkscape, using the Google font "Exo".</p>
-
-
-    <h2>Implementation</h2>
-
-    <h3>General</h3>
-    <p>The site is implemented using <a href="http://getbootstrap.com">Twitter Bootstrap</a>. My research showed it was the most flexible and widely-used 
-    framework currently available, and it supported the use of jQuery, which I was already somewhat familiar with. This proved to be a good choice - the framework
-    was very easy to get started with, and the wide usage of the technology meant that most of my questions had already been asked. The responsive grid system
-    proved key in page layout, and allowed the site to work smoothly on a wide range of screen sizes.</p>
-
-    <h3><a href="index.html">3D view</a></h3>
-    <p>This was a focus for me, and took up much of the development time. I first experimented with getting a bare minimum 3D display into the page, with just a 
-    static wireframe cube. Using <a href="http://threejs.org">Three.js</a> made this quite straightforward.</p>
-    <p>I decided early on that I would want to display interactive DOM content over the 3D view, so this was something I experimented with for some time. DOM
-    elements can't be added to a canvas for security reasons, and although <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas">
-    non-trivial workarounds</a> do exist, they aren't necessarily widely supported. The solution I settled on turned out to be quite simple: the 3D canvas view
-    is inserted into an absolutely-positioned element fixed at the start of the page, which is therefore absent from the normal document flow. I was then able
-    to create and position the other elements as normal, with the 3D view as a kind of background. This seemed more elegant than another solution where I pulled
-    the overlay element up and over the 3D view, and as a bonus it worked well with Bootstrap's responsive layout (which the other solution did not). I was surprised
-    to see that modern browsers are quite happy to display these elements with proper alpha blending: the shadow effect around the 3D view is actually created by CSS
-    in the overlay, and not by the view itself.</p>
-    <p>My <a href="js/viewer.js">viewer script</a> is what actually generates and renders the 3D view, including a light source and some simple animation. The script
-    also brings an element of the responsive layout system to the view, allowing dynamic resizing of the page in a sensible way - the object is displayed off-centre on
-    larger screens to accomodate the information panel overlay, but is centered on mobile-sized screens. I adapted this script for the screen-filling <a href="item.html">
-    main viewer</a>.</p>
-
-    <p>For obvious reasons, the 3D view isn't supported on old browsers, notably IE8. For the final site I intend to display a static image of the 3D model whenever
-    WebGL is unavailable. For now, the space is left blank and the associated scripts fail without creating other issues on the page.</p>
-
-    <h4>Future Work</h4>
-    <p>I've spent enough time on this feature to justify leaving it as-is for this interim release. The final viewer will be interactive, with rotation and zoom. I'd
-    also like to implement some kind of progressive streaming of models from the server, to get <em>something</em> displayed on the user's screen as soon as possible
-    after page load - for example, streaming the geometric mesh data and displaying each triangle as soon as it becomes available, followed by materials/shaders and 
-    finally texture images.</p>
-
-
-    <h3>CSS Styling</h3>
-    <p>The site makes use of custom CSS styling on almost every element. The intention here was to customize the look and feel to separate it visually from Bootstrap's
-    base theme. I went for a dark, flat look so as not to distract from content on the site, which should always remain the focus of the user's attention.</p>
-
-    <p>The changes can be found in <a href="css/main.css">main.css</a>, which overrides or otherwise modifies the Bootstrap rules, as well as adding a few of my own. Elements
-    modified include:</p>
-    <ul>
-      <li><strong>Navbar brand:</strong> now displays PixL logo</li>
-      <li><strong>Navbar "active" link:</strong> added accent border</li>
-      <li><strong>Navbar profile dropdown:</strong> custom CSS to correctly display profile image inline</li>
-      <li><strong>Form inputs and buttons:</strong> colour changes</li>
-      <li><strong>Panels:</strong> text display options (and heading font family) with changes to the panel borders</li>
-      <li><strong>General content:</strong> font family for normal text and headings, link colours</li>
-      <li><strong>Footer:</strong> custom footer</li>
-    </ul>
-    <p>I've made use of <a href="http://google.com/fonts">Google Fonts</a> for the site's text and logo, with "Open Sans" used across the site and "Exo" used for headings. These
-    are linked dynamically rather than served by Node.</p>
-    <p>I found working with Bootstrap very rewarding: for example, when I ran into difficulty with displaying the full navbar on "small" (i.e. tablet-sized) screens, I found I was
-    able to selectively hide parts of the text on smaller screens to get everything to fit. The responsive layout in general was also very intuitive to work with, especially when I was
-    working on the featured item information panel. I needed this to display below the 3D view on mobile-sized screens, and as an offset overlay on tablet and desktop screens; this
-    was achieved by using a column layout with a dummy "filler" div, set up so that the filler covered the area of the view not occupied by the panel, or the entire view when viewing
-    on a small screen (so that the panel flowed underneath the view).</p>
-
-
-    <h3>Server</h3>
-    <p>The only change I made server-side was to add font types to enable serving the glyphicon font. I plan on making much of the site's content dynamic for the final version, which
-    will involve a lot of server-side work.</p>
-
-
-    <h2>Thoughts</h2>
-    <p>This is by no means a finished piece of work - there are admittedly missing features, and many components didn't make sense to implement without some server-side work. I'm happy
-    with my progress so far and look forward to completing the project.</p>
-  </div>
-
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head><title>Report</title><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="css/bootstrap.min.css" rel="stylesheet"><!-- IE < 9 respond.js support for html5 stuff--><!-- [if lt IE 9]><script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+![endif]
+--><link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,600,400" rel="stylesheet" type="text/css"><link href="http://fonts.googleapis.com/css?family=Exo:200,400,700" rel="stylesheet" type="text/css"></head><body style="padding-top:0px"><div style="padding:0px;background-color:#DDD" class="container-fluid"><div style="background-color:#222;padding:20px" class="container"><img src="logo.png" style="height:120px;width:auto"></div><div style="background-color:#FFF" class="container"><h1>Alistair Wick <small>AW12700</small></h1><p class="lead">See: <a href="http://pixl.alistairwick.com/">PixL, Hosted on DigitalOcean</a></p><div class="well hidden"><h2>Contents</h2></div><h2>Brief</h2><div class="pull-right"><img src="report-images/fullcap.png" style="width:100px;height:auto"></div><p>This website is an online 3D model sharing system, 
+somewhat similar in design to image sharing sites 
+like Imgur. The site allows anonymous or registered 
+users to upload 3D models in .FBX format, a widely 
+supported export format. The models can have a 
+searchable description and tag-set attached, 
+and are sorted by their tags into categories called 
+'channels'.</p><p>Registered users can make comments on models on the 
+site, and can delete their own models if they so choose 
+(anonymously uploaded models can only be removed by 
+an admin account). Admins can select a model for 
+prominent display on the landing page, in the 'featured' 
+section. This displays a full 3D view of the model to 
+visitors.</p><p>The site utilizes a variety of client and server-side 
+technologies, including WebGL & Three.js for rendering, 
+and Node, Express and MongoDB at the back-end.
+</p><h2>Server Implementation</h2><h3>Jade Templating</h3><p>Before getting into the details of the server implementation, 
+I should mention that the site has been converted to use 
+Jade templating (dynamic html generation) throughout. This 
+allows content to be inserted and adjusted on the pages with 
+a great degree of freedom, using familiar JS-compatible code: 
+for example, search results are displayed using a loop within 
+the template document, and various controls are hidden or 
+shown based on a user's access permissions.</p><h3>File Upload and Processing</h3><div class="row"><div class="col-md-6"><p>Files are uploaded using the form shown below. This uses 
+the standard multipart/form format through HTTP POST, parsed by 
+the 'multer' express middleware, which writes the file to an 
+'uploads' directory on the server. The name, description, tags 
+and logged-in user (if any) are stored in the server's MongoDB 
+database with a unique item ID, which is used to identify the 
+model in HTTP requests. All of these fields are text-indexed, 
+allowing full search functionality with relevance-sorting. 
+A limit on the number of tags is enforced on both the client and 
+server sides (as the client protection can be trivially bypassed).</p><a href="http://pixl.alistairwick.com/upload"><img src="report-images/upload.png" class="img-responsive"></a><p>FBX files hold mesh data including vertex and face definitions, 
+and are a commonly used format for 3D data exchange. I knew 
+when starting the project that an SDK for working with the files 
+was freely available, which made it an even easier choice.</p><p>The FBX SDK provided by Autodesk provides python bindings, which
+allowed me to avoid dealing directly with native code and kept things 
+relatively portable - although the library files included in my 
+submission are linux-only, as I developed on Ubuntu. I used the 
+python-shell package to run a conversion script server-side on any 
+files which were uploaded, with the script being part of the three.js 
+bundle.</p></div><div class="col-md-6"><img src="report-images/missile.png" class="img-responsive"><p>I ran into a few issues with getting the FBX SDK working, however. 
+Different versions of python dealt differently with normal / double-
+width encoded bytes, on top of the requirement for the x64 version of
+the SDK. The SDK files also had to be manually added to the python 
+path for execution, and weren't picked up in Python's site-packages 
+directory. This issues were frustrating to debug and ended up costing 
+me time I wanted to spend on more extensive file support: in theory, 
+the conversion script also supported materials, textures, and both .obj 
+and .dae file formats, but I wasn't able to experiment with these.</p><p>In retrospect, I might have been better off relying on a more open 
+file format, and possibly even writing a converter for myself.</p></div></div><br><h3>User Signup and Login</h3><div class="row"><div class="col-md-6"><p>User accounts were part of my vision of the site from the start, 
+and were an important feature to focus on for the server-side of 
+development. Accounts can be freely created with just a name, email, 
+screen-name and password, and user information is stored on the 
+database. Users can modify their account email and password after 
+creation, and can delete the models they've uploaded. Administrators 
+can remove any model from the site, and can also select models for 
+featuring on the front page. These abilities are implemented 
+through an AJAX API, with features hidden from users who can't access 
+them (and protected by authentication on the server end).</p><a href="http://pixl.alistairwick.com/login"><img src="report-images/login.png" class="img-responsive"></a><p>The form shown above allows users to log in to the site.</p><p>Account editing:</p><img src="report-images/user_edit.png" class="img-responsive"></div><div class="col-md-6"><p>Users see their own accounts differently (thanks to dynamic Jade 
+templating). A logged-in user on her own account:</p><img src="report-images/user.png" class="img-responsive"><br><p>And viewing another user's account:</p><img src="report-images/user_noaccess.png" class="img-responsive"><p>The user's login information is stored on the server's database using 
+express' 'session' middleware, along with the connect-mongo storage 
+engine. This allows users to stay online for as long as they're 
+browsing the site by storing a small identifying cookie on their browser. 
+This cookie is matched up to a transient database entry once the user is 
+logged in, with the database entry holding their user id. All requests 
+to the server pass through a function which extracts the user's 
+information from the database for use in authentication or template 
+rendering.
+</p></div></div><br><div class="row"><div class="col-md-6"><h3>Comments</h3><p>I implemented a simple commenting system for users to add thoughts 
+on each others models. The client sends an AJAX request to the server, 
+which appends a comment to the item's database document, then renders 
+the comment html based on the comment template and returns this to the 
+client, where it is dynamically added to the webpage. Future requests 
+to the item page include the new comment(s) through the dynamic 
+templating system.</p><p>Comments are labelled with the user who posted them - this cannot be 
+faked, as it is authenticated on the server rather than sent with the 
+request. While I had planned on nested comments, this would have 
+required a more complex (and admittedly more robust) database schema 
+which I ran out of time to develop, including a full comments collection 
+(table) and relational links between comments. Note that instead I have 
+used MongoDB's support for within-document (row) arrays; this places an 
+upper limit on the number of comments per model, although this number is 
+large. It may also have a minor impact on performance when adding new 
+comments.</p></div><div class="col-md-6"><h3>Search</h3><p>The website's search functionality is robust, and is implemented through 
+MongoDB's fast text-indexing feature. The name, author name, description 
+and tags on a model are all searchable, with punctuation ignored and 
+advanced features like phrase searching with "..." or exclusion with -....</p><p>The indexed search also provides a metadata 'ranking' field, allowing 
+results to be sorted by decreasing relevance.
+</p></div></div><h2>Conclusion</h2><p>There's a huge amount I'd still like to add to the site, but this is already a 
+late submission! I wish I'd been able to spend more time on it, but all things 
+considered I'm proud of what I've developed. The site is fairly robust, displays 
+the models front and center - which is always what I intended, albeit originally 
+with a little more flash - and I've gained some valuable experience working with 
+Node and MongoDB on a deployed web-server, which I enjoyed much more than I 
+thought I would. NPM makes trying out new technologies a breeze, and the open-source 
+community really has thought of everything. The way Jade integrated so beautifully 
+with Express, JavaScript and MongoDB documents was also wonderful - having worked 
+with PHP/MySQL in the past, I can appreciate how much easier things were this time.</p></div></div></body></html>
